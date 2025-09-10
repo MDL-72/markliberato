@@ -1,0 +1,1215 @@
+'use client';
+
+import { useState, useEffect, useRef } from 'react';
+import { ChevronDownIcon, CodeBracketIcon, BriefcaseIcon, AcademicCapIcon, EnvelopeIcon, PhoneIcon, MapPinIcon, GlobeAltIcon, UserIcon, ChatBubbleLeftRightIcon, ShareIcon, SparklesIcon, StarIcon } from '@heroicons/react/24/outline';
+
+export default function Home() {
+  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [activeSection, setActiveSection] = useState('home');
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [particles, setParticles] = useState<Array<{ id: number; x: number; y: number; size: number; delay: number }>>([]);
+  const heroRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const shouldBeDark = savedTheme === 'dark' || (!savedTheme && prefersDark);
+    setIsDarkMode(shouldBeDark);
+  }, []);
+
+  useEffect(() => {
+    if (isDarkMode) {
+      document.documentElement.classList.add('dark');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+      localStorage.setItem('theme', 'light');
+    }
+  }, [isDarkMode]);
+
+  // Generate particles
+  useEffect(() => {
+    const generateParticles = () => {
+      const newParticles = Array.from({ length: 50 }, (_, i) => ({
+        id: i,
+        x: Math.random() * window.innerWidth,
+        y: Math.random() * window.innerHeight,
+        size: Math.random() * 4 + 1,
+        delay: Math.random() * 8,
+      }));
+      setParticles(newParticles);
+    };
+
+    generateParticles();
+    window.addEventListener('resize', generateParticles);
+    return () => window.removeEventListener('resize', generateParticles);
+  }, []);
+
+  // Mouse tracking for interactive effects
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      setMousePosition({ x: e.clientX, y: e.clientY });
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
+
+  const toggleTheme = () => {
+    setIsDarkMode(!isDarkMode);
+  };
+
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+      setActiveSection(sectionId);
+      setIsMobileMenuOpen(false);
+    }
+  };
+
+  return (
+    <div className={`min-h-screen transition-colors duration-300 ${isDarkMode ? 'dark bg-gray-900 text-white' : 'bg-white text-gray-900'}`}>
+      {/* Navigation */}
+      <nav className="fixed top-0 w-full z-50 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-700">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-16">
+            <div className="flex-shrink-0">
+              <h1 className="text-xl font-bold text-blue-600 dark:text-blue-400">Mark David Liberato</h1>
+            </div>
+            <div className="hidden md:block">
+              <div className="ml-10 flex items-baseline space-x-4">
+                {['home', 'about', 'skills', 'experience', 'projects', 'contact'].map((section) => (
+                  <button
+                    key={section}
+                    onClick={() => scrollToSection(section)}
+                    className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                      activeSection === section
+                        ? 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20'
+                        : 'text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400'
+                    }`}
+                  >
+                    {section.charAt(0).toUpperCase() + section.slice(1)}
+                  </button>
+                ))}
+              </div>
+            </div>
+            <div className="flex items-center space-x-2">
+              <button
+                onClick={toggleTheme}
+                className="p-2 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
+              >
+                {isDarkMode ? '☀️' : '🌙'}
+              </button>
+              <button
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                className="md:hidden p-2 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
+              >
+                <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      {/* Mobile Menu */}
+      {isMobileMenuOpen && (
+        <div className="md:hidden fixed top-16 left-0 right-0 z-40 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700">
+          <div className="px-2 pt-2 pb-3 space-y-1">
+            {['home', 'about', 'skills', 'experience', 'projects', 'contact'].map((section) => (
+              <button
+                key={section}
+                onClick={() => scrollToSection(section)}
+                className={`block w-full text-left px-3 py-2 rounded-md text-base font-medium transition-colors ${
+                  activeSection === section
+                    ? 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20'
+                    : 'text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400'
+                }`}
+              >
+                {section.charAt(0).toUpperCase() + section.slice(1)}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Hero Section */}
+      <section id="home" ref={heroRef} className="relative h-[80vh] px-4 sm:px-6 lg:px-8 overflow-hidden flex items-center">
+        {/* Tech Grid Background */}
+        <div className="absolute inset-0 -z-10">
+          <div className="absolute inset-0 bg-gradient-to-br from-blue-900/20 via-purple-900/20 to-pink-900/20"></div>
+          <div className="absolute inset-0" style={{
+            backgroundImage: `
+              linear-gradient(rgba(59, 130, 246, 0.1) 1px, transparent 1px),
+              linear-gradient(90deg, rgba(59, 130, 246, 0.1) 1px, transparent 1px)
+            `,
+            backgroundSize: '50px 50px'
+          }}></div>
+          
+          {/* Floating Code Blocks */}
+          <div className="absolute top-20 left-10 text-blue-400/20 font-mono text-sm animate-float">
+            <div>&lt;div className="hero"&gt;</div>
+            <div className="ml-4">&lt;h1&gt;Mark David&lt;/h1&gt;</div>
+            <div className="ml-4">&lt;span&gt;Front-End Engineer&lt;/span&gt;</div>
+            <div>&lt;/div&gt;</div>
+          </div>
+          
+          <div className="absolute top-40 right-20 text-purple-400/20 font-mono text-sm animate-float" style={{ animationDelay: '2s' }}>
+            <div>const skills = [</div>
+            <div className="ml-4">'React', 'Next.js', 'TypeScript'</div>
+            <div>];</div>
+          </div>
+          
+          <div className="absolute bottom-32 left-20 text-pink-400/20 font-mono text-sm animate-float" style={{ animationDelay: '4s' }}>
+            <div>npm install awesome-portfolio</div>
+            <div>✨ Building amazing experiences</div>
+          </div>
+        </div>
+
+        {/* Mouse Follower */}
+        <div
+          className="fixed w-6 h-6 bg-blue-500/20 rounded-full pointer-events-none z-50 transition-all duration-300 ease-out"
+          style={{
+            left: mousePosition.x - 12,
+            top: mousePosition.y - 12,
+            transform: 'translate(-50%, -50%)',
+          }}
+        />
+
+        <div className="max-w-7xl mx-auto relative z-10 w-full">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            {/* Left Side - Main Content */}
+            <div className="text-center lg:text-left">
+              {/* Tech Badge */}
+              <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-500/10 border border-blue-500/20 rounded-full text-blue-400 text-sm font-medium mb-6">
+                <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                Available for work
+              </div>
+
+              <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight">
+                <span className="bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent animate-gradient">
+                  Mark David
+                </span>
+                <br />
+                <span className="text-gray-800 dark:text-gray-200">
+                  Liberato
+                </span>
+              </h1>
+              
+              <div className="mb-8">
+                <h2 className="text-2xl md:text-3xl font-semibold text-gray-700 dark:text-gray-300 mb-4">
+                  Front-End Engineer
+                </h2>
+                <div className="flex flex-wrap gap-2 justify-center lg:justify-start">
+                  <span className="px-3 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-200 rounded-full text-sm font-medium">React</span>
+                  <span className="px-3 py-1 bg-purple-100 dark:bg-purple-900/30 text-purple-800 dark:text-purple-200 rounded-full text-sm font-medium">Next.js</span>
+                  <span className="px-3 py-1 bg-pink-100 dark:bg-pink-900/30 text-pink-800 dark:text-pink-200 rounded-full text-sm font-medium">TypeScript</span>
+                </div>
+              </div>
+              
+              <p className="text-lg md:text-xl text-gray-600 dark:text-gray-400 mb-8 max-w-2xl leading-relaxed">
+                Crafting exceptional digital experiences with modern web technologies. 
+                Passionate about clean code, innovative solutions, and pushing the boundaries of what's possible.
+              </p>
+              
+              <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                <button
+                  onClick={() => scrollToSection('contact')}
+                  className="group px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl hover:from-blue-700 hover:to-purple-700 transition-all duration-300 font-medium hover-lift relative overflow-hidden"
+                >
+                  <span className="relative z-10 flex items-center gap-2">
+                    Get In Touch
+                    <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                    </svg>
+                  </span>
+                  <div className="absolute inset-0 shimmer"></div>
+                </button>
+                <button
+                  onClick={() => scrollToSection('projects')}
+                  className="group px-8 py-4 border-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-xl hover:border-blue-500 hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-300 font-medium hover-lift magnetic"
+                >
+                  <span className="flex items-center gap-2">
+                    View My Work
+                    <ChevronDownIcon className="h-4 w-4 group-hover:translate-y-1 transition-transform" />
+                  </span>
+                </button>
+              </div>
+            </div>
+
+            {/* Right Side - Tech Visual */}
+            <div className="relative hidden lg:block">
+              <div className="relative w-full h-96">
+                {/* Main Terminal Window */}
+                <div className="absolute inset-0 bg-gray-900 rounded-2xl shadow-2xl overflow-hidden">
+                  {/* Terminal Header */}
+                  <div className="flex items-center gap-2 px-4 py-3 bg-gray-800 border-b border-gray-700">
+                    <div className="flex gap-2">
+                      <div className="w-3 h-3 bg-red-500 rounded-full"></div>
+                      <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
+                      <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+                    </div>
+                    <span className="text-gray-400 text-sm font-mono ml-4">mark@portfolio:~$</span>
+                  </div>
+                  
+                  {/* Terminal Content */}
+                  <div className="p-6 font-mono text-sm text-green-400 space-y-2">
+                    <div className="flex items-center gap-2">
+                      <span className="text-blue-400">$</span>
+                      <span>npm create portfolio</span>
+                    </div>
+                    <div className="text-gray-400">Creating portfolio...</div>
+                    <div className="flex items-center gap-2">
+                      <span className="text-blue-400">$</span>
+                      <span>cd portfolio && npm install</span>
+                    </div>
+                    <div className="text-gray-400">Installing dependencies...</div>
+                    <div className="flex items-center gap-2">
+                      <span className="text-blue-400">$</span>
+                      <span>npm run dev</span>
+                    </div>
+                    <div className="text-green-400">✨ Portfolio running on localhost:3000</div>
+                    <div className="text-purple-400">🚀 Ready to impress employers!</div>
+                    <div className="flex items-center gap-2">
+                      <span className="text-blue-400">$</span>
+                      <span className="animate-pulse">_</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Floating Elements */}
+                <div className="absolute -top-4 -right-4 w-16 h-16 bg-blue-500/20 rounded-full animate-float"></div>
+                <div className="absolute -bottom-4 -left-4 w-12 h-12 bg-purple-500/20 rounded-full animate-float" style={{ animationDelay: '2s' }}></div>
+                <div className="absolute top-1/2 -right-8 w-8 h-8 bg-pink-500/20 rounded-full animate-float" style={{ animationDelay: '4s' }}></div>
+              </div>
+            </div>
+          </div>
+
+          {/* Scroll Indicator */}
+          <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+            <div className="w-6 h-10 border-2 border-gray-400 dark:border-gray-600 rounded-full flex justify-center">
+              <div className="w-1 h-3 bg-gray-400 dark:bg-gray-600 rounded-full mt-2 animate-pulse"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* About Section */}
+      <section id="about" className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-gray-50 to-blue-50 dark:from-gray-800 dark:to-gray-900 relative overflow-hidden">
+        {/* Background Elements */}
+        <div className="absolute inset-0">
+          <div className="absolute top-20 right-20 w-72 h-72 bg-blue-500/5 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-20 left-20 w-96 h-96 bg-purple-500/5 rounded-full blur-3xl"></div>
+        </div>
+
+        <div className="max-w-7xl mx-auto relative z-10">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+              About Me
+            </h2>
+            <p className="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+              Passionate developer crafting digital experiences that matter
+            </p>
+          </div>
+
+          <div className="grid lg:grid-cols-3 gap-12 items-start">
+            {/* Main Story */}
+            <div className="lg:col-span-2 space-y-8">
+              <div className="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-xl hover-lift relative overflow-hidden">
+                <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-500/10 to-purple-500/10 rounded-full -translate-y-16 translate-x-16"></div>
+                
+                <div className="relative z-10">
+                  <div className="flex items-center gap-4 mb-6">
+                    <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl flex items-center justify-center">
+                      <span className="text-2xl">👨‍💻</span>
+                    </div>
+                    <div>
+                      <h3 className="text-2xl font-bold text-gray-800 dark:text-gray-200">My Journey</h3>
+                      <p className="text-gray-600 dark:text-gray-400">3+ years of building amazing web experiences</p>
+                    </div>
+                  </div>
+                  
+                  <p className="text-lg text-gray-700 dark:text-gray-300 mb-6 leading-relaxed">
+                    I'm a passionate Front-End Engineer who loves turning complex problems into simple, 
+                    beautiful, and intuitive solutions. With 3 years of experience, I've had the privilege 
+                    of working with amazing teams at Samsung and Collabera, building everything from 
+                    enterprise admin portals to consumer-facing applications.
+                  </p>
+                  
+                  <p className="text-lg text-gray-700 dark:text-gray-300 leading-relaxed">
+                    I specialize in React, Next.js, and TypeScript, but what really drives me is creating 
+                    user experiences that not only look great but also solve real problems. I believe in 
+                    clean code, continuous learning, and the power of technology to make a positive impact.
+                  </p>
+                </div>
+              </div>
+
+              {/* Stats */}
+              <div className="grid md:grid-cols-3 gap-6">
+                <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg text-center hover-lift">
+                  <div className="text-3xl font-bold text-blue-600 dark:text-blue-400 mb-2">3+</div>
+                  <div className="text-gray-600 dark:text-gray-400">Years Experience</div>
+                </div>
+                <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg text-center hover-lift">
+                  <div className="text-3xl font-bold text-purple-600 dark:text-purple-400 mb-2">15+</div>
+                  <div className="text-gray-600 dark:text-gray-400">Projects Completed</div>
+                </div>
+                <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg text-center hover-lift">
+                  <div className="text-3xl font-bold text-pink-600 dark:text-pink-400 mb-2">100%</div>
+                  <div className="text-gray-600 dark:text-gray-400">Client Satisfaction</div>
+                </div>
+              </div>
+            </div>
+
+            {/* Side Info */}
+            <div className="space-y-6">
+              {/* Education */}
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg hover-lift">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-10 h-10 bg-gradient-to-r from-green-500 to-blue-500 rounded-lg flex items-center justify-center">
+                    <AcademicCapIcon className="h-6 w-6 text-white" />
+                  </div>
+                  <h3 className="text-xl font-bold text-gray-800 dark:text-gray-200">Education</h3>
+                </div>
+                <div className="space-y-2">
+                  <h4 className="font-semibold text-gray-800 dark:text-gray-200">B.S. Computer Engineering</h4>
+                  <p className="text-gray-600 dark:text-gray-400">STI College, Global City</p>
+                  <p className="text-sm text-gray-500 dark:text-gray-500">2018 - 2022</p>
+                </div>
+              </div>
+
+              {/* Location */}
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg hover-lift">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-10 h-10 bg-gradient-to-r from-orange-500 to-red-500 rounded-lg flex items-center justify-center">
+                    <MapPinIcon className="h-6 w-6 text-white" />
+                  </div>
+                  <h3 className="text-xl font-bold text-gray-800 dark:text-gray-200">Location</h3>
+                </div>
+                <p className="text-gray-600 dark:text-gray-400">Philippines</p>
+                <p className="text-sm text-gray-500 dark:text-gray-500">Open to remote work</p>
+              </div>
+
+              {/* Interests */}
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg hover-lift">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
+                    <span className="text-xl">🎯</span>
+                  </div>
+                  <h3 className="text-xl font-bold text-gray-800 dark:text-gray-200">Interests</h3>
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  <span className="px-3 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-200 rounded-full text-sm">UI/UX Design</span>
+                  <span className="px-3 py-1 bg-purple-100 dark:bg-purple-900/30 text-purple-800 dark:text-purple-200 rounded-full text-sm">Open Source</span>
+                  <span className="px-3 py-1 bg-pink-100 dark:bg-pink-900/30 text-pink-800 dark:text-pink-200 rounded-full text-sm">Mentoring</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Skills Section */}
+      <section id="skills" className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-slate-50 to-blue-50 dark:from-gray-800 dark:to-gray-900 relative overflow-hidden">
+        {/* Background Effects */}
+        <div className="absolute inset-0">
+          <div className="absolute top-20 left-20 w-72 h-72 bg-blue-500/5 rounded-full blur-3xl animate-float"></div>
+          <div className="absolute bottom-20 right-20 w-96 h-96 bg-purple-500/5 rounded-full blur-3xl animate-float" style={{ animationDelay: '3s' }}></div>
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-pink-500/5 rounded-full blur-3xl"></div>
+        </div>
+
+        <div className="max-w-7xl mx-auto relative z-10">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+              Technical Skills
+            </h2>
+            <p className="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+              My toolkit for building exceptional digital experiences
+            </p>
+          </div>
+
+          {/* Main Skills Grid */}
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+            {/* Frontend Development */}
+            <div className="group bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-xl hover:shadow-2xl transition-all duration-500 hover-lift relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-500/10 to-purple-500/10 rounded-full -translate-y-16 translate-x-16 group-hover:scale-150 transition-transform duration-500"></div>
+              
+              <div className="relative z-10">
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="w-14 h-14 bg-gradient-to-r from-blue-500 to-purple-500 rounded-2xl flex items-center justify-center">
+                    <span className="text-3xl">⚛️</span>
+                  </div>
+                  <div>
+                    <h3 className="text-2xl font-bold text-gray-800 dark:text-gray-200">Frontend</h3>
+                    <p className="text-gray-600 dark:text-gray-400">User Interface</p>
+                  </div>
+                </div>
+                
+                <div className="space-y-4">
+                  {[
+                    { name: 'React', level: 95, icon: '⚛️' },
+                    { name: 'Next.js', level: 90, icon: '▲' },
+                    { name: 'TypeScript', level: 88, icon: '🔷' },
+                    { name: 'JavaScript', level: 92, icon: '🟨' }
+                  ].map((skill, index) => (
+                    <div key={index} className="group/skill">
+                      <div className="flex items-center justify-between mb-2">
+                        <div className="flex items-center gap-3">
+                          <span className="text-lg">{skill.icon}</span>
+                          <span className="font-semibold text-gray-800 dark:text-gray-200">{skill.name}</span>
+                        </div>
+                        <span className="text-sm text-gray-500 dark:text-gray-400">{skill.level}%</span>
+                      </div>
+                      <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2 overflow-hidden">
+                        <div 
+                          className="h-full bg-gradient-to-r from-blue-500 to-purple-500 rounded-full transition-all duration-1000 ease-out group-hover/skill:from-blue-600 group-hover/skill:to-purple-600"
+                          style={{ width: `${skill.level}%` }}
+                        ></div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Styling & Design */}
+            <div className="group bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-xl hover:shadow-2xl transition-all duration-500 hover-lift relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-pink-500/10 to-purple-500/10 rounded-full -translate-y-16 translate-x-16 group-hover:scale-150 transition-transform duration-500"></div>
+              
+              <div className="relative z-10">
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="w-14 h-14 bg-gradient-to-r from-pink-500 to-purple-500 rounded-2xl flex items-center justify-center">
+                    <span className="text-3xl">🎨</span>
+                  </div>
+                  <div>
+                    <h3 className="text-2xl font-bold text-gray-800 dark:text-gray-200">Styling</h3>
+                    <p className="text-gray-600 dark:text-gray-400">Design & UI</p>
+                  </div>
+                </div>
+                
+                <div className="grid grid-cols-2 gap-3">
+                  {[
+                    { name: 'Tailwind CSS', color: 'from-cyan-500 to-blue-500' },
+                    { name: 'Material UI', color: 'from-blue-500 to-indigo-500' },
+                    { name: 'shadcn/ui', color: 'from-gray-700 to-gray-900' },
+                    { name: 'CSS3', color: 'from-blue-600 to-purple-600' },
+                    { name: 'HTML5', color: 'from-orange-500 to-red-500' },
+                    { name: 'SCSS', color: 'from-pink-500 to-purple-500' }
+                  ].map((skill, index) => (
+                    <div key={index} className="group/skill-tag">
+                      <div className={`px-4 py-3 bg-gradient-to-r ${skill.color} text-white rounded-xl text-center font-medium text-sm hover:scale-105 transition-transform duration-200 cursor-default`}>
+                        {skill.name}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* State Management */}
+            <div className="group bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-xl hover:shadow-2xl transition-all duration-500 hover-lift relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-green-500/10 to-blue-500/10 rounded-full -translate-y-16 translate-x-16 group-hover:scale-150 transition-transform duration-500"></div>
+              
+              <div className="relative z-10">
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="w-14 h-14 bg-gradient-to-r from-green-500 to-blue-500 rounded-2xl flex items-center justify-center">
+                    <span className="text-3xl">🔄</span>
+                  </div>
+                  <div>
+                    <h3 className="text-2xl font-bold text-gray-800 dark:text-gray-200">State</h3>
+                    <p className="text-gray-600 dark:text-gray-400">Management</p>
+                  </div>
+                </div>
+                
+                <div className="space-y-3">
+                  {[
+                    { name: 'Redux Toolkit', level: 85, icon: '🔴' },
+                    { name: 'Redux Saga', level: 80, icon: '⚡' },
+                    { name: 'Zustand', level: 75, icon: '🐻' },
+                    { name: 'Context API', level: 90, icon: '📦' }
+                  ].map((skill, index) => (
+                    <div key={index} className="flex items-center gap-3 p-3 bg-gray-50 dark:bg-gray-700 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors">
+                      <span className="text-xl">{skill.icon}</span>
+                      <div className="flex-1">
+                        <div className="flex justify-between items-center mb-1">
+                          <span className="font-medium text-gray-800 dark:text-gray-200">{skill.name}</span>
+                          <span className="text-sm text-gray-500 dark:text-gray-400">{skill.level}%</span>
+                        </div>
+                        <div className="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-1.5">
+                          <div 
+                            className="h-full bg-gradient-to-r from-green-500 to-blue-500 rounded-full transition-all duration-1000 ease-out"
+                            style={{ width: `${skill.level}%` }}
+                          ></div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Additional Skills */}
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {/* Testing */}
+            <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover-lift">
+              <div className="text-center">
+                <div className="w-12 h-12 bg-gradient-to-r from-orange-500 to-red-500 rounded-xl flex items-center justify-center mx-auto mb-4">
+                  <span className="text-2xl">🧪</span>
+                </div>
+                <h4 className="font-bold text-gray-800 dark:text-gray-200 mb-3">Testing</h4>
+                <div className="space-y-2">
+                  {['Jest', 'RTL', 'Karma', 'Jasmine'].map((skill, index) => (
+                    <div key={index} className="text-sm text-gray-600 dark:text-gray-400 bg-gray-50 dark:bg-gray-700 px-3 py-1 rounded-full">
+                      {skill}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Tools */}
+            <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover-lift">
+              <div className="text-center">
+                <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl flex items-center justify-center mx-auto mb-4">
+                  <span className="text-2xl">🛠️</span>
+                </div>
+                <h4 className="font-bold text-gray-800 dark:text-gray-200 mb-3">Tools</h4>
+                <div className="space-y-2">
+                  {['GitHub Actions', 'Docker', 'AWS', 'Vercel'].map((skill, index) => (
+                    <div key={index} className="text-sm text-gray-600 dark:text-gray-400 bg-gray-50 dark:bg-gray-700 px-3 py-1 rounded-full">
+                      {skill}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Languages */}
+            <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover-lift">
+              <div className="text-center">
+                <div className="w-12 h-12 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-xl flex items-center justify-center mx-auto mb-4">
+                  <span className="text-2xl">💻</span>
+                </div>
+                <h4 className="font-bold text-gray-800 dark:text-gray-200 mb-3">Languages</h4>
+                <div className="space-y-2">
+                  {['TypeScript', 'JavaScript', 'Java', 'Python'].map((skill, index) => (
+                    <div key={index} className="text-sm text-gray-600 dark:text-gray-400 bg-gray-50 dark:bg-gray-700 px-3 py-1 rounded-full">
+                      {skill}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Databases */}
+            <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover-lift">
+              <div className="text-center">
+                <div className="w-12 h-12 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-xl flex items-center justify-center mx-auto mb-4">
+                  <span className="text-2xl">🗄️</span>
+                </div>
+                <h4 className="font-bold text-gray-800 dark:text-gray-200 mb-3">Data</h4>
+                <div className="space-y-2">
+                  {['SQL', 'GraphQL', 'MongoDB', 'PostgreSQL'].map((skill, index) => (
+                    <div key={index} className="text-sm text-gray-600 dark:text-gray-400 bg-gray-50 dark:bg-gray-700 px-3 py-1 rounded-full">
+                      {skill}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Experience Section */}
+      <section id="experience" className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-slate-50 to-indigo-50 dark:from-gray-800 dark:to-gray-900 relative overflow-hidden">
+        {/* Background Effects */}
+        <div className="absolute inset-0">
+          <div className="absolute top-20 left-20 w-64 h-64 bg-blue-500/5 rounded-full blur-3xl animate-float"></div>
+          <div className="absolute bottom-20 right-20 w-80 h-80 bg-purple-500/5 rounded-full blur-3xl animate-float" style={{ animationDelay: '3s' }}></div>
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-pink-500/5 rounded-full blur-3xl"></div>
+        </div>
+
+        <div className="max-w-7xl mx-auto relative z-10">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+              Professional Experience
+            </h2>
+            <p className="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+              Building amazing products with world-class teams
+            </p>
+          </div>
+
+          {/* Experience Timeline */}
+          <div className="relative">
+            {/* Timeline Line */}
+            <div className="absolute left-8 top-0 bottom-0 w-1 bg-gradient-to-b from-blue-500 via-purple-500 to-pink-500 rounded-full"></div>
+            
+            <div className="space-y-16">
+              {[
+                {
+                  company: 'Samsung Electronics Philippines Corporation',
+                  position: 'Front-End Engineer',
+                  period: '2023 – Present',
+                  location: 'Taguig, Philippines',
+                  logo: '🏢',
+                  description: 'Leading front-end development for enterprise-level applications and AI-powered platforms with focus on performance and user experience.',
+                  achievements: ['Led team of 3 developers', 'Improved efficiency by 40%', 'Reduced load time by 60%', '10,000+ conference attendees'],
+                  projects: [
+                    {
+                      title: 'AI SDK Admin & Partner Portal',
+                      tech: ['Next.js', 'TypeScript', 'Chart.js', 'API Integration'],
+                      description: 'Built comprehensive admin portal with data visualizations and secure authentication for AI SDK management.',
+                      impact: 'Improved admin efficiency by 40%',
+                      status: 'Live',
+                      features: ['Data Visualization', 'Secure Auth', 'Real-time Analytics']
+                    },
+                    {
+                      title: 'Galaxy AI Admin Portal',
+                      tech: ['Angular', 'Chart.js', 'Jasmine', 'Karma'],
+                      description: 'Optimized large dataset rendering with Chart.js visualizations and comprehensive unit testing coverage.',
+                      impact: 'Reduced load time by 60%',
+                      status: 'Live',
+                      features: ['Performance Optimization', 'Unit Testing', 'Data Visualization']
+                    },
+                    {
+                      title: 'Immortal Admin Portal (Front-End Lead)',
+                      tech: ['React', 'Next.js', 'Redux Toolkit', 'GitHub Actions'],
+                      description: 'Led migration from React to Next.js, redesigned architecture for improved scalability and maintainability.',
+                      impact: 'Led team of 3 developers',
+                      status: 'Live',
+                      features: ['Architecture Migration', 'Team Leadership', 'CI/CD Pipeline']
+                    },
+                    {
+                      title: 'Samsung Open Source Conference (SOSCON)',
+                      tech: ['Next.js', 'MUI', 'Tailwind', 'shadcn'],
+                      description: 'Built conference websites for 2023 & 2024 with modern UI frameworks and responsive design.',
+                      impact: '10,000+ attendees',
+                      status: 'Live',
+                      features: ['Conference Website', 'Responsive Design', 'Modern UI']
+                    }
+                  ],
+                  gradient: 'from-blue-500 to-cyan-500'
+                },
+                {
+                  company: 'Collabera Digital Philippines',
+                  position: 'Front-End Developer',
+                  period: '2022 – 2023',
+                  location: 'Makati, Philippines',
+                  logo: '💼',
+                  description: 'Developed and maintained global web applications with focus on performance optimization and modern development practices.',
+                  achievements: ['Global deployment across 20+ countries', '50% faster build times', 'Performance optimization', 'BEM methodology implementation'],
+                  projects: [
+                    {
+                      title: 'Essilor Eye Locator App',
+                      tech: ['ReactJS', 'Redux', 'GA4', 'BEM'],
+                      description: 'Multi-config for Essilor global sites with performance optimization and BEM methodology for maintainable CSS.',
+                      impact: 'Global deployment across 20+ countries',
+                      status: 'Live',
+                      features: ['Multi-config Setup', 'Performance Optimization', 'BEM Methodology']
+                    },
+                    {
+                      title: 'Eye Locator App V2',
+                      tech: ['ReactJS', 'pnpm', 'Modern React', 'Build Optimization'],
+                      description: 'Modern React practices with improved build system using pnpm for faster dependency management.',
+                      impact: '50% faster build times',
+                      status: 'Live',
+                      features: ['Build Optimization', 'Modern React', 'pnpm Architecture']
+                    }
+                  ],
+                  gradient: 'from-green-500 to-blue-500'
+                }
+              ].map((job, index) => (
+                <div key={index} className="relative flex items-start gap-8 group">
+                  {/* Timeline Dot */}
+                  <div className="relative z-10 flex-shrink-0 w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center text-2xl shadow-lg group-hover:scale-110 transition-transform duration-300">
+                    {job.logo}
+                  </div>
+                  
+                  {/* Job Card */}
+                  <div className="flex-1 bg-white dark:bg-gray-800 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-500 hover-lift border border-gray-200 dark:border-gray-700 overflow-hidden">
+                    {/* Header */}
+                    <div className={`h-2 bg-gradient-to-r ${job.gradient}`}></div>
+                    
+                    <div className="p-8">
+                      <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
+                        <div>
+                          <h3 className="text-2xl font-bold text-gray-800 dark:text-gray-200 mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                            {job.position}
+                          </h3>
+                          <p className="text-xl text-blue-600 dark:text-blue-400 font-semibold mb-2">{job.company}</p>
+                          <div className="flex items-center gap-4 text-gray-600 dark:text-gray-400">
+                            <span className="flex items-center gap-1">
+                              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                              </svg>
+                              {job.period}
+                            </span>
+                            <span className="flex items-center gap-1">
+                              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                              </svg>
+                              {job.location}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <p className="text-gray-600 dark:text-gray-400 mb-6 leading-relaxed">
+                        {job.description}
+                      </p>
+                      
+                      {/* Achievements */}
+                      <div className="mb-6">
+                        <h4 className="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-3">Key Achievements</h4>
+                        <div className="grid md:grid-cols-2 gap-3">
+                          {job.achievements.map((achievement, achievementIndex) => (
+                            <div key={achievementIndex} className="flex items-center gap-2 p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                              <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                              <span className="text-sm text-gray-700 dark:text-gray-300">{achievement}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                      
+                      {/* Projects */}
+                      <div className="space-y-6">
+                        <h4 className="text-lg font-semibold text-gray-800 dark:text-gray-200">Featured Projects</h4>
+                        <div className="grid md:grid-cols-2 gap-6">
+                          {job.projects.map((project, projectIndex) => (
+                            <div key={projectIndex} className="bg-gray-50 dark:bg-gray-700 rounded-xl p-6 border border-gray-200 dark:border-gray-600 hover:border-blue-300 dark:hover:border-blue-500 transition-colors group">
+                              <div className="flex items-center justify-between mb-3">
+                                <h5 className="text-lg font-semibold text-gray-800 dark:text-gray-200 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                                  {project.title}
+                                </h5>
+                                <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                                  project.status === 'Live' 
+                                    ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400' 
+                                    : 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400'
+                                }`}>
+                                  {project.status}
+                                </span>
+                              </div>
+                              
+                              <div className="flex flex-wrap gap-2 mb-3">
+                                {project.tech.map((tech, techIndex) => (
+                                  <span key={techIndex} className="px-3 py-1 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-full text-sm font-medium border border-gray-200 dark:border-gray-600">
+                                    {tech}
+                                  </span>
+                                ))}
+                              </div>
+                              
+                              <p className="text-gray-600 dark:text-gray-400 text-sm mb-3 leading-relaxed">
+                                {project.description}
+                              </p>
+                              
+                              {/* Features */}
+                              <div className="mb-3">
+                                <div className="flex flex-wrap gap-2">
+                                  {project.features.map((feature, featureIndex) => (
+                                    <div key={featureIndex} className="flex items-center gap-1 text-xs text-gray-500 dark:text-gray-400">
+                                      <div className="w-1 h-1 bg-blue-400 rounded-full"></div>
+                                      <span>{feature}</span>
+                                    </div>
+                                  ))}
+                                </div>
+                              </div>
+                              
+                              <div className="flex items-center gap-2 text-green-600 dark:text-green-400 font-medium text-sm">
+                                <span className="text-lg">📈</span>
+                                <span>{project.impact}</span>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Projects Section */}
+      <section id="projects" className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-gray-50 to-indigo-50 dark:from-gray-800 dark:to-gray-900 relative overflow-hidden">
+        {/* Background Effects */}
+        <div className="absolute inset-0">
+          <div className="absolute top-20 left-20 w-64 h-64 bg-blue-500/5 rounded-full blur-3xl animate-float"></div>
+          <div className="absolute bottom-20 right-20 w-80 h-80 bg-purple-500/5 rounded-full blur-3xl animate-float" style={{ animationDelay: '3s' }}></div>
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-pink-500/5 rounded-full blur-3xl"></div>
+        </div>
+
+        <div className="max-w-7xl mx-auto relative z-10">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+              Featured Projects
+            </h2>
+            <p className="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+              Showcasing my best work and creative solutions
+            </p>
+          </div>
+
+          {/* Project Categories */}
+          <div className="flex flex-wrap justify-center gap-4 mb-12">
+            {['All', 'Web Apps', 'Landing Pages', 'Full-Stack'].map((category, index) => (
+              <button
+                key={index}
+                className={`px-6 py-3 rounded-full font-medium transition-all duration-300 ${
+                  index === 0 
+                    ? 'bg-blue-600 text-white shadow-lg' 
+                    : 'bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:bg-blue-50 dark:hover:bg-gray-700'
+                }`}
+              >
+                {category}
+              </button>
+            ))}
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {[
+              {
+                title: 'Spring of Virtue Integrated School',
+                description: 'A comprehensive landing page for an educational institution with advanced SEO optimization and performance enhancements.',
+                tech: ['React', 'Next.js', 'Tailwind CSS', 'Vercel'],
+                status: 'Live',
+                category: 'Landing Page',
+                gradient: 'from-emerald-500 to-teal-500',
+                icon: '🎓',
+                features: ['SEO Optimized', 'Mobile First', 'Fast Loading'],
+                impact: '40% increase in inquiries',
+                image: 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=500&h=300&fit=crop',
+                link: '#',
+                github: '#'
+              },
+              {
+                title: '8GIG Konstruct',
+                description: 'Custom construction company landing page built from scratch without any UI libraries for maximum performance.',
+                tech: ['React', 'SCSS', 'JavaScript', 'Vercel'],
+                status: 'Live',
+                category: 'Landing Page',
+                gradient: 'from-purple-500 to-pink-500',
+                icon: '🏗️',
+                features: ['Custom Design', 'Zero Dependencies', 'Optimized'],
+                impact: '60% faster load times',
+                image: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=500&h=300&fit=crop',
+                link: '#',
+                github: '#'
+              },
+              {
+                title: 'Core Bridge Solutions',
+                description: 'Full-stack business solution with headless CMS integration and modern development practices.',
+                tech: ['Next.js', 'Tailwind', 'Strapi', 'GraphQL'],
+                status: 'Live',
+                category: 'Full-Stack',
+                gradient: 'from-blue-500 to-cyan-500',
+                icon: '🌉',
+                features: ['Headless CMS', 'GraphQL API', 'Admin Panel'],
+                impact: 'Led full development',
+                image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=500&h=300&fit=crop',
+                link: '#',
+                github: '#'
+              },
+              {
+                title: 'Ayuda Lesiones',
+                description: 'Medical assistance platform with team leadership and full-stack development responsibilities.',
+                tech: ['Next.js', 'Tailwind', 'Strapi', 'Team Lead'],
+                status: 'Live',
+                category: 'Web App',
+                gradient: 'from-red-500 to-orange-500',
+                icon: '🏥',
+                features: ['Team Leadership', 'Full-Stack', 'Medical Focus'],
+                impact: 'Led team of 2 developers',
+                image: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?w=500&h=300&fit=crop',
+                link: '#',
+                github: '#'
+              },
+              {
+                title: 'Move to South Florida',
+                description: 'Coming soon landing page with modern design and full-stack development leadership.',
+                tech: ['Next.js', 'Tailwind', 'Strapi', 'Full-Stack Lead'],
+                status: 'Live',
+                category: 'Landing Page',
+                gradient: 'from-yellow-500 to-green-500',
+                icon: '🌴',
+                features: ['Coming Soon', 'Full-Stack Lead', 'Modern Design'],
+                impact: 'Full project ownership',
+                image: 'https://images.unsplash.com/photo-1506905925346-04b1e0a0c8b0?w=500&h=300&fit=crop',
+                link: '#',
+                github: '#'
+              },
+              {
+                title: 'Portfolio Dashboard',
+                description: 'Personal portfolio dashboard with analytics, project management, and client communication tools.',
+                tech: ['Next.js', 'TypeScript', 'Prisma', 'PostgreSQL'],
+                status: 'In Development',
+                category: 'Web App',
+                gradient: 'from-indigo-500 to-purple-500',
+                icon: '📊',
+                features: ['Analytics', 'Project Management', 'Client Portal'],
+                impact: 'Personal project',
+                image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=500&h=300&fit=crop',
+                link: '#',
+                github: '#'
+              }
+            ].map((project, index) => (
+              <div 
+                key={index} 
+                className="group bg-white dark:bg-gray-800 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-500 hover-lift relative overflow-hidden"
+                style={{ animationDelay: `${index * 0.1}s` }}
+              >
+                {/* Project Image */}
+                <div className="relative h-48 overflow-hidden">
+                  <img 
+                    src={project.image} 
+                    alt={project.title}
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                  />
+                  <div className={`absolute inset-0 bg-gradient-to-t ${project.gradient} opacity-20`}></div>
+                  
+                  {/* Status Badge */}
+                  <div className="absolute top-4 right-4">
+                    <span className={`px-3 py-1 rounded-full text-xs font-medium ${
+                      project.status === 'Live' 
+                        ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400' 
+                        : 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400'
+                    }`}>
+                      {project.status}
+                    </span>
+                  </div>
+                  
+                  {/* Category Badge */}
+                  <div className="absolute top-4 left-4">
+                    <span className="px-3 py-1 bg-white/90 dark:bg-gray-800/90 text-gray-700 dark:text-gray-300 rounded-full text-xs font-medium">
+                      {project.category}
+                    </span>
+                  </div>
+                  
+                  {/* Project Icon */}
+                  <div className="absolute bottom-4 left-4">
+                    <div className={`w-12 h-12 bg-gradient-to-r ${project.gradient} rounded-xl flex items-center justify-center text-2xl shadow-lg`}>
+                      {project.icon}
+                    </div>
+                  </div>
+                </div>
+                
+                {/* Project Content */}
+                <div className="p-6">
+                  <h3 className="text-xl font-bold text-gray-800 dark:text-gray-200 mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                    {project.title}
+                  </h3>
+                  
+                  <p className="text-gray-600 dark:text-gray-400 mb-4 text-sm leading-relaxed">
+                    {project.description}
+                  </p>
+                  
+                  {/* Tech Stack */}
+                  <div className="mb-4">
+                    <div className="flex flex-wrap gap-2">
+                      {project.tech.map((tech, techIndex) => (
+                        <span key={techIndex} className="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-md text-xs font-medium">
+                          {tech}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                  
+                  {/* Features */}
+                  <div className="mb-4">
+                    <div className="flex flex-wrap gap-2">
+                      {project.features.map((feature, featureIndex) => (
+                        <div key={featureIndex} className="flex items-center gap-1 text-xs text-gray-500 dark:text-gray-400">
+                          <div className="w-1 h-1 bg-blue-400 rounded-full"></div>
+                          <span>{feature}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                  
+                  {/* Impact */}
+                  <div className="mb-6 p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                    <div className="flex items-center gap-2 text-sm text-green-600 dark:text-green-400 font-medium">
+                      <span className="text-lg">📈</span>
+                      <span>{project.impact}</span>
+                    </div>
+                  </div>
+                  
+                  {/* Action Buttons */}
+                  <div className="flex gap-3">
+                    <button className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium flex items-center justify-center gap-2">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                      </svg>
+                      View Live
+                    </button>
+                    <button className="px-4 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+                
+                {/* Hover Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-blue-600/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Contact Section */}
+      <section id="contact" className="py-16 px-4 sm:px-6 lg:px-8 bg-gray-50 dark:bg-gray-800 relative overflow-hidden">
+        {/* Background Effects */}
+        <div className="absolute inset-0">
+          <div className="absolute top-20 left-10 w-32 h-32 bg-blue-500/10 rounded-full blur-3xl animate-float"></div>
+          <div className="absolute bottom-20 right-10 w-40 h-40 bg-purple-500/10 rounded-full blur-3xl animate-float" style={{ animationDelay: '3s' }}></div>
+        </div>
+
+        <div className="max-w-7xl mx-auto relative z-10">
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+            Get In Touch
+          </h2>
+          <div className="grid md:grid-cols-2 gap-12">
+            <div className="space-y-8">
+              <div>
+                <h3 className="text-2xl font-semibold mb-6 flex items-center gap-3">
+                  <span className="text-3xl">🚀</span>
+                  Let's work together!
+                </h3>
+                <p className="text-lg text-gray-600 dark:text-gray-400 mb-8 leading-relaxed">
+                  I'm always interested in new opportunities and exciting projects. 
+                  Whether you have a question or just want to say hi, I'll try my best to get back to you!
+                </p>
+              </div>
+              
+              <div className="space-y-6">
+                <div className="group flex items-center space-x-4 p-4 rounded-lg hover:bg-white/50 dark:hover:bg-gray-700/50 transition-all duration-300 hover-lift">
+                  <div className="p-3 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg group-hover:scale-110 transition-transform duration-300">
+                    <EnvelopeIcon className="h-6 w-6 text-white" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">Email</p>
+                    <p className="text-gray-700 dark:text-gray-300 font-medium">mark.liberato@email.com</p>
+                  </div>
+                </div>
+                
+                <div className="group flex items-center space-x-4 p-4 rounded-lg hover:bg-white/50 dark:hover:bg-gray-700/50 transition-all duration-300 hover-lift">
+                  <div className="p-3 bg-gradient-to-r from-green-500 to-blue-500 rounded-lg group-hover:scale-110 transition-transform duration-300">
+                    <PhoneIcon className="h-6 w-6 text-white" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">Phone</p>
+                    <p className="text-gray-700 dark:text-gray-300 font-medium">+63 XXX XXX XXXX</p>
+                  </div>
+                </div>
+                
+                <div className="group flex items-center space-x-4 p-4 rounded-lg hover:bg-white/50 dark:hover:bg-gray-700/50 transition-all duration-300 hover-lift">
+                  <div className="p-3 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg group-hover:scale-110 transition-transform duration-300">
+                    <MapPinIcon className="h-6 w-6 text-white" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">Location</p>
+                    <p className="text-gray-700 dark:text-gray-300 font-medium">Philippines</p>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="flex space-x-4">
+                <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="group p-4 bg-white dark:bg-gray-700 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-600 transition-all duration-300 hover-lift magnetic">
+                  <svg className="h-6 w-6 text-gray-600 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white transition-colors" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                  </svg>
+                </a>
+                <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="group p-4 bg-white dark:bg-gray-700 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-600 transition-all duration-300 hover-lift magnetic">
+                  <svg className="h-6 w-6 text-gray-600 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                  </svg>
+                </a>
+                <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="group p-4 bg-white dark:bg-gray-700 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-600 transition-all duration-300 hover-lift magnetic">
+                  <svg className="h-6 w-6 text-gray-600 dark:text-gray-400 group-hover:text-blue-400 dark:group-hover:text-blue-300 transition-colors" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
+                  </svg>
+                </a>
+              </div>
+            </div>
+            
+            <div className="bg-white dark:bg-gray-700 p-8 rounded-2xl shadow-2xl glass hover-lift relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-500/10 to-purple-500/10 rounded-full -translate-y-16 translate-x-16"></div>
+              
+              <div className="relative z-10">
+                <h3 className="text-xl font-semibold mb-6 flex items-center gap-2">
+                  <span className="text-2xl">💬</span>
+                  Send me a message
+                </h3>
+                
+                <form className="space-y-6">
+                  <div className="group">
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                      Name
+                    </label>
+                    <input
+                      type="text"
+                      className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-800 dark:text-white transition-all duration-300 group-hover:border-blue-400"
+                      placeholder="Your Name"
+                    />
+                  </div>
+                  
+                  <div className="group">
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                      Email
+                    </label>
+                    <input
+                      type="email"
+                      className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-800 dark:text-white transition-all duration-300 group-hover:border-blue-400"
+                      placeholder="your.email@example.com"
+                    />
+                  </div>
+                  
+                  <div className="group">
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                      Message
+                    </label>
+                    <textarea
+                      rows={4}
+                      className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-800 dark:text-white transition-all duration-300 group-hover:border-blue-400 resize-none"
+                      placeholder="Your message..."
+                    ></textarea>
+                  </div>
+                  
+                  <button
+                    type="submit"
+                    className="w-full px-6 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-300 font-medium hover-lift magnetic relative overflow-hidden group"
+                  >
+                    <span className="relative z-10 flex items-center justify-center gap-2">
+                      Send Message
+                      <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                      </svg>
+                    </span>
+                    <div className="absolute inset-0 shimmer"></div>
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="py-8 px-4 sm:px-6 lg:px-8 bg-gray-900 dark:bg-gray-950 text-white">
+        <div className="max-w-7xl mx-auto text-center">
+          <p className="text-gray-400">
+            © 2024 Mark David Liberato. Built with Next.js and Tailwind CSS.
+          </p>
+        </div>
+      </footer>
+    </div>
+  );
+}
