@@ -45,7 +45,7 @@ const Contact: React.FC = () => {
   };
 
   return (
-    <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-slate-900 dark:via-blue-900 dark:to-indigo-900 relative overflow-hidden">
+    <section className="min-h-screen py-8 sm:py-12 lg:py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-slate-900 dark:via-blue-900 dark:to-indigo-900 relative overflow-hidden">
       {/* Creative Background Elements */}
       <div className="absolute inset-0">
         {/* Floating geometric shapes */}
@@ -55,62 +55,62 @@ const Contact: React.FC = () => {
       </div>
 
       <div className="max-w-7xl mx-auto relative z-10">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-blue-600 via-purple-600 to-cyan-600 bg-clip-text text-transparent">
+        <div className="text-center mb-12 sm:mb-16">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-blue-600 via-purple-600 to-cyan-600 bg-clip-text text-transparent">
             Get In Touch
           </h2>
-          <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+          <p className="text-lg sm:text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto px-4">
             Let's build something <span className="text-blue-600 dark:text-blue-400 font-semibold">amazing</span> together
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-12">
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12">
           {/* Contact Info */}
-          <div className="space-y-8">
+          <div className="space-y-6 sm:space-y-8">
             <div>
-              <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
+              <h3 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-4 sm:mb-6">
                 Let's Connect
               </h3>
-              <p className="text-gray-600 dark:text-gray-300 mb-8 leading-relaxed">
+              <p className="text-gray-600 dark:text-gray-300 mb-6 sm:mb-8 leading-relaxed text-sm sm:text-base">
                 I'm always interested in new opportunities and exciting projects. 
                 Whether you have a question or just want to say hi, I'll try my best to get back to you!
               </p>
             </div>
 
             {/* Contact Cards */}
-            <div className="space-y-4">
-              <Card className="p-6 hover:shadow-lg transition-all duration-300 group">
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                    <EnvelopeIcon className="w-6 h-6 text-white" />
+            <div className="space-y-3 sm:space-y-4">
+              <Card className="p-4 sm:p-6 hover:shadow-lg transition-all duration-300 group">
+                <div className="flex items-center gap-3 sm:gap-4">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                    <EnvelopeIcon className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
                   </div>
                   <div>
-                    <h4 className="font-semibold text-gray-900 dark:text-white">Email</h4>
-                    <p className="text-gray-600 dark:text-gray-300">{contactData.email}</p>
+                    <h4 className="font-semibold text-gray-900 dark:text-white text-sm sm:text-base">Email</h4>
+                    <p className="text-gray-600 dark:text-gray-300 text-xs sm:text-sm">{contactData.email}</p>
                   </div>
                 </div>
               </Card>
 
-              <Card className="p-6 hover:shadow-lg transition-all duration-300 group">
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 bg-gradient-to-r from-green-500 to-blue-500 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                    <PhoneIcon className="w-6 h-6 text-white" />
+              <Card className="p-4 sm:p-6 hover:shadow-lg transition-all duration-300 group">
+                <div className="flex items-center gap-3 sm:gap-4">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-r from-green-500 to-blue-500 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                    <PhoneIcon className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
                   </div>
                   <div>
-                    <h4 className="font-semibold text-gray-900 dark:text-white">Phone</h4>
-                    <p className="text-gray-600 dark:text-gray-300">{contactData.phone}</p>
+                    <h4 className="font-semibold text-gray-900 dark:text-white text-sm sm:text-base">Phone</h4>
+                    <p className="text-gray-600 dark:text-gray-300 text-xs sm:text-sm">{contactData.phone}</p>
                   </div>
                 </div>
               </Card>
 
-              <Card className="p-6 hover:shadow-lg transition-all duration-300 group">
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                    <MapPinIcon className="w-6 h-6 text-white" />
+              <Card className="p-4 sm:p-6 hover:shadow-lg transition-all duration-300 group">
+                <div className="flex items-center gap-3 sm:gap-4">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                    <MapPinIcon className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
                   </div>
                   <div>
-                    <h4 className="font-semibold text-gray-900 dark:text-white">Location</h4>
-                    <p className="text-gray-600 dark:text-gray-300">{contactData.location}</p>
+                    <h4 className="font-semibold text-gray-900 dark:text-white text-sm sm:text-base">Location</h4>
+                    <p className="text-gray-600 dark:text-gray-300 text-xs sm:text-sm">{contactData.location}</p>
                   </div>
                 </div>
               </Card>

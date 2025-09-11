@@ -40,7 +40,7 @@ const Hero: React.FC = () => {
   ];
 
   return (
-    <section className="relative h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-slate-900 dark:via-blue-900 dark:to-indigo-900">
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-slate-900 dark:via-blue-900 dark:to-indigo-900">
       {/* Background Image - Right Side */}
       <div className="absolute inset-0 lg:left-1/2 ">
         <Image
@@ -69,16 +69,16 @@ const Hero: React.FC = () => {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 h-full">
-        <div className="grid lg:grid-cols-2 gap-12 items-center h-full py-8">
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center h-full py-8 sm:py-12 lg:py-8">
           {/* Main Content */}
           <div className="text-left space-y-4 relative">
             {/* Tech Status Badge */}
-            <div className="inline-flex items-center gap-3 px-4 py-2 bg-gradient-to-r from-cyan-500/10 to-blue-500/10 backdrop-blur-md border border-cyan-400/30 dark:border-cyan-600/30 rounded-full shadow-lg relative overflow-hidden">
-              <div className="relative flex items-center gap-3">
+            <div className="inline-flex items-center gap-2 sm:gap-3 px-3 sm:px-4 py-2 bg-gradient-to-r from-cyan-500/10 to-blue-500/10 backdrop-blur-md border border-cyan-400/30 dark:border-cyan-600/30 rounded-full shadow-lg relative overflow-hidden">
+              <div className="relative flex items-center gap-2 sm:gap-3">
                 <div className="relative">
-                  <div className="w-3 h-3 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-full"></div>
+                  <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-full"></div>
                 </div>
-                <span className="text-cyan-700 dark:text-cyan-300 font-medium text-sm">
+                <span className="text-cyan-700 dark:text-cyan-300 font-medium text-xs sm:text-sm">
                   ● Available for new opportunities
                 </span>
               </div>
@@ -87,7 +87,7 @@ const Hero: React.FC = () => {
             {/* Glitch Text Effect Heading */}
             <div className="space-y-3 relative">
               <div className="relative">
-                <h1 className="text-4xl md:text-5xl lg:text-6xl font-black leading-tight relative">
+                <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black leading-tight relative">
                   <span className="block text-gray-900 dark:text-white tracking-tight relative z-10">
                     <span className="inline-block hover:animate-pulse hover:scale-105 transition-transform duration-300">Hi,</span> I'm
                   </span>
@@ -101,26 +101,26 @@ const Hero: React.FC = () => {
                 </div>
               </div>
 
-              <h2 className="text-xl md:text-2xl font-bold text-gray-700 dark:text-gray-300 leading-tight group">
+              <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-700 dark:text-gray-300 leading-tight group">
                 <span className="text-cyan-600 dark:text-cyan-400 font-bold group-hover:text-cyan-500 dark:group-hover:text-cyan-300 transition-colors duration-300 group-hover:scale-105 inline-block transition-transform duration-300 text-glow">
                   Full-Stack Developer
                 </span>
-                <span className="text-gray-600 dark:text-gray-400 text-lg md:text-xl font-semibold ml-2 group-hover:text-gray-500 dark:group-hover:text-gray-300 transition-colors duration-300 group-hover:scale-105 inline-block transition-transform duration-300 text-float">
+                <span className="text-gray-600 dark:text-gray-400 text-base sm:text-lg md:text-xl font-semibold ml-1 sm:ml-2 group-hover:text-gray-500 dark:group-hover:text-gray-300 transition-colors duration-300 group-hover:scale-105 inline-block transition-transform duration-300 text-float">
                   & Digital Innovator
                 </span>
               </h2>
             </div>
 
             {/* Animated Description with Typewriter Effect */}
-            <div className="space-y-3 relative">
-              <div className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed max-w-2xl relative group">
+            <div className="space-y-2 sm:space-y-3 relative">
+              <div className="text-base sm:text-lg text-gray-600 dark:text-gray-300 leading-relaxed max-w-2xl relative group">
                 I craft <span className="relative inline-block group/sub">
                   <span className="text-cyan-600 dark:text-cyan-400 font-bold relative z-10 group-hover/sub:text-cyan-500 dark:group-hover/sub:text-cyan-300 transition-colors duration-300 group-hover/sub:scale-105 inline-block transition-transform duration-300 text-bounce">scalable, performant, and intuitive</span>
                   <div className="absolute -bottom-1 left-0 w-full h-0.5 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full group-hover/sub:from-cyan-400 group-hover/sub:to-blue-400 transition-all duration-300"></div>
                   <div className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full group-hover/sub:w-full transition-all duration-1000"></div>
                 </span> web solutions that drive business growth.
               </div>
-              <div className="text-base text-gray-500 dark:text-gray-400 leading-relaxed max-w-2xl group">
+              <div className="text-sm sm:text-base text-gray-500 dark:text-gray-400 leading-relaxed max-w-2xl group">
                 From concept to deployment, I specialize in creating
                 <span className="text-purple-600 dark:text-purple-400 font-semibold relative inline-block group/sub ml-1">
                   <span className="relative z-10 group-hover/sub:text-purple-500 dark:group-hover/sub:text-purple-300 transition-colors duration-300 group-hover/sub:scale-105 inline-block transition-transform duration-300 text-wave">cutting-edge applications</span>
@@ -130,22 +130,22 @@ const Hero: React.FC = () => {
             </div>
 
             {/* Enhanced CTA Buttons with Tech Effects */}
-            <div className="flex flex-col sm:flex-row gap-4">
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
               <Link href="/projects">
                 <Button
                   variant="primary"
                   size="lg"
-                  className="group px-6 py-3 text-base font-semibold shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 relative overflow-hidden animate-pulse h-12"
+                  className="group px-4 sm:px-6 py-3 text-sm sm:text-base font-semibold shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 relative overflow-hidden animate-pulse h-10 sm:h-12"
                 >
                   <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/20 to-blue-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                  <div className="relative flex items-center gap-2 h-full">
+                  <div className="relative flex items-center gap-1.5 sm:gap-2 h-full">
                     <div className="relative">
-                      <SparklesIcon className="w-5 h-5 group-hover:rotate-12 transition-transform duration-300 animate-bounce" />
-                      <div className="absolute inset-0 w-5 h-5 bg-cyan-500/30 rounded-full scale-0 group-hover:scale-150 transition-all duration-300"></div>
+                      <SparklesIcon className="w-4 h-4 sm:w-5 sm:h-5 group-hover:rotate-12 transition-transform duration-300 animate-bounce" />
+                      <div className="absolute inset-0 w-4 h-4 sm:w-5 sm:h-5 bg-cyan-500/30 rounded-full scale-0 group-hover:scale-150 transition-all duration-300"></div>
                     </div>
-                    <span className="font-bold text-glow">View My Work</span>
-                    <ArrowRightIcon className="w-5 h-5 group-hover:translate-x-2 transition-transform duration-300" />
-                    <div className="w-1.5 h-1.5 bg-cyan-500 rounded-full animate-ping"></div>
+                    <span className="font-bold text-glow text-sm sm:text-base">View My Work</span>
+                    <ArrowRightIcon className="w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-2 transition-transform duration-300" />
+                    <div className="w-1 h-1 sm:w-1.5 sm:h-1.5 bg-cyan-500 rounded-full animate-ping"></div>
                   </div>
                 </Button>
               </Link>
@@ -153,37 +153,37 @@ const Hero: React.FC = () => {
                 <Button
                   variant="outline"
                   size="lg"
-                  className="px-6 py-3 text-base font-semibold border-2 border-purple-500/70 hover:border-purple-400 hover:shadow-xl hover:shadow-purple-500/30 transition-all duration-300 transform hover:scale-105 relative overflow-hidden group bg-gradient-to-r from-purple-500/10 to-pink-500/10 hover:from-purple-500/20 hover:to-pink-500/20 animate-pulse h-12"
+                  className="px-4 sm:px-6 py-3 text-sm sm:text-base font-semibold border-2 border-purple-500/70 hover:border-purple-400 hover:shadow-xl hover:shadow-purple-500/30 transition-all duration-300 transform hover:scale-105 relative overflow-hidden group bg-gradient-to-r from-purple-500/10 to-pink-500/10 hover:from-purple-500/20 hover:to-pink-500/20 animate-pulse h-10 sm:h-12"
                 >
                   <div className="absolute inset-0 bg-gradient-to-r from-purple-500/30 to-pink-500/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                  <div className="relative flex items-center gap-2 h-full">
+                  <div className="relative flex items-center gap-1.5 sm:gap-2 h-full">
                     <div className="relative">
-                      <EnvelopeIcon className="w-5 h-5 group-hover:scale-110 group-hover:rotate-12 transition-all duration-300 text-purple-600 dark:text-purple-400 animate-bounce" />
-                      <div className="absolute inset-0 w-5 h-5 bg-purple-500/30 rounded-full scale-0 group-hover:scale-150 transition-all duration-300"></div>
+                      <EnvelopeIcon className="w-4 h-4 sm:w-5 sm:h-5 group-hover:scale-110 group-hover:rotate-12 transition-all duration-300 text-purple-600 dark:text-purple-400 animate-bounce" />
+                      <div className="absolute inset-0 w-4 h-4 sm:w-5 sm:h-5 bg-purple-500/30 rounded-full scale-0 group-hover:scale-150 transition-all duration-300"></div>
                     </div>
-                    <span className="text-purple-700 dark:text-purple-300 group-hover:text-purple-600 dark:group-hover:text-purple-200 transition-colors duration-300 font-bold text-glow">
+                    <span className="text-purple-700 dark:text-purple-300 group-hover:text-purple-600 dark:group-hover:text-purple-200 transition-colors duration-300 font-bold text-glow text-sm sm:text-base">
                       Get In Touch
                     </span>
-                    <div className="w-1.5 h-1.5 bg-purple-500 rounded-full animate-ping"></div>
+                    <div className="w-1 h-1 sm:w-1.5 sm:h-1.5 bg-purple-500 rounded-full animate-ping"></div>
                   </div>
                 </Button>
               </Link>
             </div>
 
             {/* Animated Tech Stats with Hover Effects */}
-            <div className="grid grid-cols-3 gap-4 pt-2">
+            <div className="grid grid-cols-3 gap-2 sm:gap-4 pt-2">
               <div className="text-center group relative">
-                <div className="relative inline-block mb-2">
-                  <div className="w-16 h-16 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-full flex items-center justify-center shadow-lg group-hover:shadow-2xl transition-all duration-300 transform group-hover:scale-110 relative overflow-hidden">
+                <div className="relative inline-block mb-1 sm:mb-2">
+                  <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-full flex items-center justify-center shadow-lg group-hover:shadow-2xl transition-all duration-300 transform group-hover:scale-110 relative overflow-hidden">
                     <div className="absolute inset-0 bg-gradient-to-r from-cyan-400/50 to-blue-500/50 animate-pulse"></div>
-                    <CodeBracketIcon className="w-8 h-8 text-white relative z-10 group-hover:rotate-12 transition-transform duration-300" />
-                    <div className="absolute -top-1 -right-1 w-6 h-6 bg-green-500 rounded-full flex items-center justify-center shadow-lg animate-bounce">
+                    <CodeBracketIcon className="w-6 h-6 sm:w-8 sm:h-8 text-white relative z-10 group-hover:rotate-12 transition-transform duration-300" />
+                    <div className="absolute -top-1 -right-1 w-4 h-4 sm:w-6 sm:h-6 bg-green-500 rounded-full flex items-center justify-center shadow-lg animate-bounce">
                       <span className="text-white text-xs font-bold">+</span>
                     </div>
                   </div>
                   <div className="absolute -inset-1 border-2 border-cyan-400/30 rounded-full animate-spin opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 </div>
-                <div className="text-2xl font-bold text-cyan-600 dark:text-cyan-400 group-hover:text-cyan-700 dark:group-hover:text-cyan-300 transition-colors duration-300 relative">
+                <div className="text-lg sm:text-2xl font-bold text-cyan-600 dark:text-cyan-400 group-hover:text-cyan-700 dark:group-hover:text-cyan-300 transition-colors duration-300 relative">
                   <span className="relative z-10">20+</span>
                   <div className="absolute inset-0 text-cyan-600/50 blur-sm animate-pulse"></div>
                 </div>
@@ -191,17 +191,17 @@ const Hero: React.FC = () => {
               </div>
 
               <div className="text-center group relative">
-                <div className="relative inline-block mb-2">
-                  <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-600 rounded-full flex items-center justify-center shadow-lg group-hover:shadow-2xl transition-all duration-300 transform group-hover:scale-110 relative overflow-hidden">
+                <div className="relative inline-block mb-1 sm:mb-2">
+                  <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-purple-500 to-pink-600 rounded-full flex items-center justify-center shadow-lg group-hover:shadow-2xl transition-all duration-300 transform group-hover:scale-110 relative overflow-hidden">
                     <div className="absolute inset-0 bg-gradient-to-r from-purple-400/50 to-pink-500/50 animate-pulse"></div>
-                    <StarIcon className="w-8 h-8 text-white relative z-10 group-hover:rotate-12 transition-transform duration-300" />
-                    <div className="absolute -top-1 -right-1 w-6 h-6 bg-yellow-500 rounded-full flex items-center justify-center shadow-lg animate-bounce">
+                    <StarIcon className="w-6 h-6 sm:w-8 sm:h-8 text-white relative z-10 group-hover:rotate-12 transition-transform duration-300" />
+                    <div className="absolute -top-1 -right-1 w-4 h-4 sm:w-6 sm:h-6 bg-yellow-500 rounded-full flex items-center justify-center shadow-lg animate-bounce">
                       <span className="text-white text-xs font-bold">★</span>
                     </div>
                   </div>
                   <div className="absolute -inset-1 border-2 border-purple-400/30 rounded-full animate-spin opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 </div>
-                <div className="text-2xl font-bold text-purple-600 dark:text-purple-400 group-hover:text-purple-700 dark:group-hover:text-purple-300 transition-colors duration-300 relative">
+                <div className="text-lg sm:text-2xl font-bold text-purple-600 dark:text-purple-400 group-hover:text-purple-700 dark:group-hover:text-purple-300 transition-colors duration-300 relative">
                   <span className="relative z-10">3+</span>
                   <div className="absolute inset-0 text-purple-600/50 blur-sm animate-pulse"></div>
                 </div>
@@ -209,17 +209,17 @@ const Hero: React.FC = () => {
               </div>
 
               <div className="text-center group relative">
-                <div className="relative inline-block mb-2">
-                  <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-cyan-600 rounded-full flex items-center justify-center shadow-lg group-hover:shadow-2xl transition-all duration-300 transform group-hover:scale-110 relative overflow-hidden">
+                <div className="relative inline-block mb-1 sm:mb-2">
+                  <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-blue-500 to-cyan-600 rounded-full flex items-center justify-center shadow-lg group-hover:shadow-2xl transition-all duration-300 transform group-hover:scale-110 relative overflow-hidden">
                     <div className="absolute inset-0 bg-gradient-to-r from-blue-400/50 to-cyan-500/50 animate-pulse"></div>
-                    <SparklesIcon className="w-8 h-8 text-white relative z-10 group-hover:rotate-12 transition-transform duration-300" />
-                    <div className="absolute -top-1 -right-1 w-6 h-6 bg-red-500 rounded-full flex items-center justify-center shadow-lg animate-bounce">
+                    <SparklesIcon className="w-6 h-6 sm:w-8 sm:h-8 text-white relative z-10 group-hover:rotate-12 transition-transform duration-300" />
+                    <div className="absolute -top-1 -right-1 w-4 h-4 sm:w-6 sm:h-6 bg-red-500 rounded-full flex items-center justify-center shadow-lg animate-bounce">
                       <span className="text-white text-xs font-bold">%</span>
                     </div>
                   </div>
                   <div className="absolute -inset-1 border-2 border-blue-400/30 rounded-full animate-spin opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 </div>
-                <div className="text-2xl font-bold text-blue-600 dark:text-blue-400 group-hover:text-blue-700 dark:group-hover:text-blue-300 transition-colors duration-300 relative">
+                <div className="text-lg sm:text-2xl font-bold text-blue-600 dark:text-blue-400 group-hover:text-blue-700 dark:group-hover:text-blue-300 transition-colors duration-300 relative">
                   <span className="relative z-10">100%</span>
                   <div className="absolute inset-0 text-blue-600/50 blur-sm animate-pulse"></div>
                 </div>

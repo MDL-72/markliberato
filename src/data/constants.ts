@@ -288,8 +288,8 @@ export const projectsData = [
 
 // Contact data
 export const contactData = {
-  email: 'mark.liberato@email.com',
-  phone: '+63 912 345 6789',
+  email: 'markdavidliberato@gmail.com',
+  phone: '+63 XXX XXX XXXX',
   location: 'Taguig, Philippines',
   social: [
     {
@@ -299,7 +299,7 @@ export const contactData = {
     },
     {
       name: 'LinkedIn',
-      url: 'https://linkedin.com/in/markliberato',
+      url: 'https://linkedin.com/in/mdl72',
       iconName: 'LinkedIn',
     },
     {
