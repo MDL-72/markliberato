@@ -1,73 +1,142 @@
-# Component Architecture
+# Components Structure
 
-This directory contains all the reusable components organized by their purpose and functionality.
+This directory contains all React components organized in a modular and optimized structure.
 
 ## Directory Structure
 
 ```
 src/components/
-├── ui/                    # Reusable UI components
-│   ├── Button.tsx         # Button component with variants
-│   ├── Card.tsx           # Card component with hover effects
-│   ├── Badge.tsx          # Badge component for status indicators
-│   └── ProgressBar.tsx    # Progress bar component
+├── common/                 # Reusable common components
+│   ├── AnimatedBackground.tsx
+│   ├── PageHeader.tsx
+│   ├── StatsCard.tsx
+│   ├── AnimatedText.tsx
+│   ├── StatusBadge.tsx
+│   └── index.ts
+├── sections/              # Page-specific sections
+│   ├── Hero.tsx
+│   ├── About.tsx
+│   ├── Skills.tsx
+│   ├── Projects.tsx
+│   ├── Contact.tsx
+│   ├── hero/              # Hero section components
+│   │   ├── HeroContent.tsx
+│   │   └── HeroStats.tsx
+│   └── about/             # About section components
+│       ├── AboutTabs.tsx
+│       └── AboutOverview.tsx
+├── ui/                    # Basic UI components
+│   ├── Button.tsx
+│   ├── Card.tsx
+│   ├── Badge.tsx
+│   └── ProgressBar.tsx
 ├── layout/                # Layout components
-│   └── Navigation.tsx     # Main navigation component
-├── sections/              # Page section components
-│   ├── Hero.tsx           # Hero section
-│   ├── About.tsx          # About section
-│   ├── Skills.tsx         # Skills section
-│   ├── Experience.tsx     # Experience section
-│   ├── Projects.tsx       # Projects section
-│   └── Contact.tsx        # Contact section
-└── index.ts               # Barrel exports for easy importing
+│   ├── Navbar.tsx
+│   └── Navigation.tsx
+└── icons/                 # Icon components
+    └── SocialIcons.tsx
 ```
 
 ## Component Guidelines
 
-### UI Components
-- **Reusable**: Can be used across different sections
-- **Configurable**: Accept props for customization
-- **Accessible**: Follow accessibility best practices
-- **Type-safe**: Full TypeScript support
+### 1. Common Components (`/common`)
+Reusable components used across multiple pages:
+- **AnimatedBackground**: Configurable animated backgrounds
+- **PageHeader**: Standardized page headers with title and subtitle
+- **StatsCard**: Consistent stats display cards
+- **AnimatedText**: Text with various animation effects
+- **StatusBadge**: Status indicators with animations
 
-### Section Components
-- **Self-contained**: Each section manages its own state
-- **Responsive**: Mobile-first design approach
-- **Animated**: Smooth transitions and hover effects
-- **Data-driven**: Use data from constants file
+### 2. Section Components (`/sections`)
+Main page sections, broken down into smaller sub-components when needed:
+- **Hero**: Landing page hero section
+- **About**: About page with tabbed interface
+- **Skills**: Technical skills display
+- **Projects**: Project showcase with filtering
+- **Contact**: Contact form and information
 
-### Layout Components
-- **Global**: Used across the entire application
-- **Stateful**: Manage global state (theme, navigation)
-- **Responsive**: Adapt to different screen sizes
+### 3. UI Components (`/ui`)
+Basic, reusable UI elements:
+- **Button**: Various button styles and sizes
+- **Card**: Container component with consistent styling
+- **Badge**: Label/tag component
+- **ProgressBar**: Progress indication component
+
+## Optimization Features
+
+### 1. Modular Design
+- Large components broken into smaller, focused components
+- Clear separation of concerns
+- Reusable components across different sections
+
+### 2. Performance Optimizations
+- Reduced bundle size through component splitting
+- Lazy loading capabilities
+- Optimized re-renders with proper state management
+
+### 3. Responsive Design
+- Mobile-first approach
+- Consistent responsive breakpoints
+- Optimized for all screen sizes
+
+### 4. Type Safety
+- Full TypeScript support
+- Proper prop interfaces
+- Type-safe component composition
+
+### 5. Accessibility
+- ARIA labels and roles
+- Keyboard navigation support
+- Screen reader compatibility
 
 ## Usage Examples
 
+### Using Common Components
 ```tsx
-// Import individual components
-import { Button, Card, Badge } from '../components';
+import { PageHeader, StatsCard, AnimatedBackground } from '@/components/common';
 
-// Use components with props
-<Button variant="primary" size="lg" onClick={handleClick}>
-  Click me
-</Button>
+// Page header
+<PageHeader 
+  title="My Skills"
+  subtitle="Technologies I work with"
+  highlightText="Technologies"
+/>
 
-<Card hover gradient="from-blue-500 to-purple-500">
-  <h3>Card Title</h3>
-  <p>Card content</p>
-</Card>
+// Stats card
+<StatsCard
+  icon={CodeIcon}
+  value="20+"
+  label="Projects"
+  color="cyan"
+/>
 
-<Badge variant="success" size="md">
-  Live
-</Badge>
+// Animated background
+<AnimatedBackground variant="hero" />
 ```
 
-## Benefits
+### Using Section Components
+```tsx
+import Hero from '@/components/sections/Hero';
+import About from '@/components/sections/About';
 
-1. **Maintainability**: Easy to update and modify components
-2. **Reusability**: Components can be used multiple times
-3. **Consistency**: Uniform design across the application
-4. **Type Safety**: Full TypeScript support prevents errors
-5. **Performance**: Optimized rendering and state management
-6. **Testing**: Easier to unit test individual components
+// In your page component
+<Hero />
+<About />
+```
+
+## Best Practices
+
+1. **Component Size**: Keep components focused and under 200 lines
+2. **Props Interface**: Always define clear TypeScript interfaces
+3. **Responsive Design**: Use consistent responsive classes
+4. **Performance**: Avoid unnecessary re-renders
+5. **Accessibility**: Include proper ARIA attributes
+6. **Documentation**: Comment complex logic and props
+
+## Future Improvements
+
+- [ ] Add Storybook for component documentation
+- [ ] Implement component testing
+- [ ] Add animation performance monitoring
+- [ ] Create component usage analytics
+- [ ] Add accessibility testing automation

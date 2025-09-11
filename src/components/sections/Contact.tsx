@@ -1,11 +1,13 @@
 'use client';
 
 import React, { useState } from 'react';
-import { EnvelopeIcon, PhoneIcon, MapPinIcon, CodeBracketIcon, CpuChipIcon } from '@heroicons/react/24/outline';
-import { contactData } from '../../data/constants';
+import { EnvelopeIcon, PhoneIcon, MapPinIcon } from '@heroicons/react/24/outline';
+import { contactData, pageConfigs } from '../../data/optimized-constants';
 import { GitHubIcon, LinkedInIcon, TwitterIcon } from '../icons/SocialIcons';
 import Card from '../ui/Card';
 import Button from '../ui/Button';
+import AnimatedBackground from '../common/AnimatedBackground';
+import PageHeader from '../common/PageHeader';
 
 const Contact: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -44,25 +46,26 @@ const Contact: React.FC = () => {
     });
   };
 
+  const getIconForType = (type: string) => {
+    switch (type) {
+      case 'email': return EnvelopeIcon;
+      case 'phone': return PhoneIcon;
+      case 'location': return MapPinIcon;
+      default: return EnvelopeIcon;
+    }
+  };
+
   return (
     <section className="min-h-screen py-8 sm:py-12 lg:py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-slate-900 dark:via-blue-900 dark:to-indigo-900 relative overflow-hidden">
-      {/* Creative Background Elements */}
-      <div className="absolute inset-0">
-        {/* Floating geometric shapes */}
-        <div className="absolute top-20 left-20 w-32 h-32 bg-blue-500/10 rounded-full blur-xl animate-float"></div>
-        <div className="absolute bottom-20 right-20 w-40 h-40 bg-purple-500/10 rounded-full blur-xl animate-float" style={{ animationDelay: '2s' }}></div>
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-60 h-60 bg-cyan-500/10 rounded-full blur-xl"></div>
-      </div>
+      {/* Animated Background */}
+      <AnimatedBackground variant="contact" />
 
       <div className="max-w-7xl mx-auto relative z-10">
-        <div className="text-center mb-12 sm:mb-16">
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-blue-600 via-purple-600 to-cyan-600 bg-clip-text text-transparent">
-            Get In Touch
-          </h2>
-          <p className="text-lg sm:text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto px-4">
-            Let's build something <span className="text-blue-600 dark:text-blue-400 font-semibold">amazing</span> together
-          </p>
-        </div>
+        <PageHeader 
+          title={pageConfigs.contact.title}
+          subtitle={pageConfigs.contact.subtitle}
+          highlightText="amazing"
+        />
 
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-12">
           {/* Contact Info */}
@@ -79,175 +82,137 @@ const Contact: React.FC = () => {
 
             {/* Contact Cards */}
             <div className="space-y-3 sm:space-y-4">
-              <Card className="p-4 sm:p-6 hover:shadow-lg transition-all duration-300 group">
-                <div className="flex items-center gap-3 sm:gap-4">
-                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                    <EnvelopeIcon className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-gray-900 dark:text-white text-sm sm:text-base">Email</h4>
-                    <p className="text-gray-600 dark:text-gray-300 text-xs sm:text-sm">{contactData.email}</p>
-                  </div>
-                </div>
-              </Card>
-
-              <Card className="p-4 sm:p-6 hover:shadow-lg transition-all duration-300 group">
-                <div className="flex items-center gap-3 sm:gap-4">
-                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-r from-green-500 to-blue-500 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                    <PhoneIcon className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-gray-900 dark:text-white text-sm sm:text-base">Phone</h4>
-                    <p className="text-gray-600 dark:text-gray-300 text-xs sm:text-sm">{contactData.phone}</p>
-                  </div>
-                </div>
-              </Card>
-
-              <Card className="p-4 sm:p-6 hover:shadow-lg transition-all duration-300 group">
-                <div className="flex items-center gap-3 sm:gap-4">
-                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                    <MapPinIcon className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-gray-900 dark:text-white text-sm sm:text-base">Location</h4>
-                    <p className="text-gray-600 dark:text-gray-300 text-xs sm:text-sm">{contactData.location}</p>
-                  </div>
-                </div>
-              </Card>
+              {contactData.info.map((info, index) => {
+                const IconComponent = getIconForType(info.type);
+                return (
+                  <Card key={index} className="p-4 sm:p-6 hover:shadow-lg transition-all duration-300 group">
+                    <div className="flex items-center gap-3 sm:gap-4">
+                      <div className={`w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-r ${info.color} rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-300`}>
+                        <IconComponent className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
+                      </div>
+                      <div>
+                        <h4 className="font-semibold text-gray-900 dark:text-white text-sm sm:text-base">{info.title}</h4>
+                        <p className="text-gray-600 dark:text-gray-300 text-xs sm:text-sm">{info.value}</p>
+                      </div>
+                    </div>
+                  </Card>
+                );
+              })}
             </div>
 
             {/* Social Links */}
             <div>
               <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
-                Connect With Me
+                Follow Me
               </h4>
               <div className="flex gap-4">
-                {contactData.social.map((social, index) => {
-                  const getIcon = () => {
-                    switch (social.iconName) {
-                      case 'GitHub':
-                        return <GitHubIcon />;
-                      case 'LinkedIn':
-                        return <LinkedInIcon />;
-                      case 'Twitter':
-                        return <TwitterIcon />;
-                      default:
-                        return null;
-                    }
-                  };
-
-                  return (
-                    <a
-                      key={index}
-                      href={social.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="w-12 h-12 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg flex items-center justify-center hover:bg-blue-50 dark:hover:bg-blue-900/20 hover:border-blue-300 dark:hover:border-blue-600 transition-all duration-300 group"
-                    >
-                      <svg className="w-6 h-6 text-gray-600 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors" fill="currentColor" viewBox="0 0 24 24">
-                        {getIcon()}
-                      </svg>
-                    </a>
-                  );
-                })}
+                <a
+                  href={contactData.social.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-gray-700 transition-colors duration-300"
+                >
+                  <GitHubIcon className="w-5 h-5 text-white" />
+                </a>
+                <a
+                  href={contactData.social.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center hover:bg-blue-700 transition-colors duration-300"
+                >
+                  <LinkedInIcon className="w-5 h-5 text-white" />
+                </a>
+                <a
+                  href={contactData.social.twitter}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-10 h-10 bg-sky-500 rounded-lg flex items-center justify-center hover:bg-sky-600 transition-colors duration-300"
+                >
+                  <TwitterIcon className="w-5 h-5 text-white" />
+                </a>
               </div>
             </div>
           </div>
 
           {/* Contact Form */}
-          <div>
-            <Card className="p-8 hover:shadow-xl transition-all duration-300">
-              <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
-                Send Message
-              </h3>
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="grid md:grid-cols-2 gap-6">
-                  <div>
-                    <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                      Name
-                    </label>
-                    <input
-                      type="text"
-                      id="name"
-                      name="name"
-                      value={formData.name}
-                      onChange={handleInputChange}
-                      required
-                      className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white transition-colors"
-                      placeholder="Your name"
-                    />
-                  </div>
-                  <div>
-                    <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                      Email
-                    </label>
-                    <input
-                      type="email"
-                      id="email"
-                      name="email"
-                      value={formData.email}
-                      onChange={handleInputChange}
-                      required
-                      className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white transition-colors"
-                      placeholder="your.email@example.com"
-                    />
-                  </div>
-                </div>
-                
+          <Card className="p-6 sm:p-8">
+            <h3 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-6">
+              Send a Message
+            </h3>
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div className="grid sm:grid-cols-2 gap-4">
                 <div>
-                  <label htmlFor="subject" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                    Subject
+                  <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    Name
                   </label>
                   <input
                     type="text"
-                    id="subject"
-                    name="subject"
-                    value={formData.subject}
+                    id="name"
+                    name="name"
+                    value={formData.name}
                     onChange={handleInputChange}
                     required
-                    className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white transition-colors"
-                    placeholder="What's this about?"
+                    className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                    placeholder="Your name"
                   />
                 </div>
-                
                 <div>
-                  <label htmlFor="message" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                    Message
+                  <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    Email
                   </label>
-                  <textarea
-                    id="message"
-                    name="message"
-                    value={formData.message}
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    value={formData.email}
                     onChange={handleInputChange}
                     required
-                    rows={6}
-                    className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white transition-colors resize-none"
-                    placeholder="Tell me about your project..."
+                    className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                    placeholder="your.email@example.com"
                   />
                 </div>
-                
-                <Button
-                  type="submit"
-                  variant="primary"
-                  size="lg"
-                  disabled={isSubmitting}
-                  className="w-full disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  {isSubmitting ? (
-                    <>
-                      <CpuChipIcon className="w-5 h-5 mr-2 animate-spin" />
-                      Sending...
-                    </>
-                  ) : (
-                    <>
-                      <CodeBracketIcon className="w-5 h-5 mr-2" />
-                      Send Message
-                    </>
-                  )}
-                </Button>
-              </form>
-            </Card>
-          </div>
+              </div>
+              <div>
+                <label htmlFor="subject" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  Subject
+                </label>
+                <input
+                  type="text"
+                  id="subject"
+                  name="subject"
+                  value={formData.subject}
+                  onChange={handleInputChange}
+                  required
+                  className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                  placeholder="What's this about?"
+                />
+              </div>
+              <div>
+                <label htmlFor="message" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  Message
+                </label>
+                <textarea
+                  id="message"
+                  name="message"
+                  value={formData.message}
+                  onChange={handleInputChange}
+                  required
+                  rows={5}
+                  className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-800 text-gray-900 dark:text-white resize-none"
+                  placeholder="Tell me about your project..."
+                />
+              </div>
+              <Button
+                type="submit"
+                variant="primary"
+                size="lg"
+                className="w-full"
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? 'Sending...' : 'Send Message'}
+              </Button>
+            </form>
+          </Card>
         </div>
       </div>
     </section>

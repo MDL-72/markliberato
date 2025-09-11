@@ -1,6 +1,6 @@
 import React from 'react';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
-import { navigationItems } from '../../data/constants';
+import { navigationItems } from '../../data/optimized-constants';
 import { useTheme } from '../../hooks/useTheme';
 import { useScroll } from '../../hooks/useScroll';
 import { useMobileMenu } from '../../hooks/useMobileMenu';
