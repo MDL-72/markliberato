@@ -1,11 +1,5 @@
-import { MetadataRoute } from 'next'
-
+import { MetadataRoute } from 'next';
+import { profile } from '@/data/portfolio';
 export default function robots(): MetadataRoute.Robots {
-  return {
-    rules: {
-      userAgent: '*',
-      allow: '/',
-    },
-    sitemap: 'https://mark-liberato.vercel.app/sitemap.xml',
-  }
+    return { rules: { userAgent: '*', allow: '/' }, sitemap: `${profile.site}/sitemap.xml` };
 }

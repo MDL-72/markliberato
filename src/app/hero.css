@@ -1,0 +1,368 @@
+/* ------------------------------------------------------------------ hero --
+   Scoped under .hero- so the 3D context established here never reaches the
+   .dm-* exhibit or the .se-* explorer, which have their own composition.
+
+   Depth uses `perspective` on the scene and no `transform-style: preserve-3d`.
+   The planes are siblings that never intersect, so per-child flattening is
+   correct, and skipping preserve-3d avoids the flattening differences between
+   engines. Paint order comes from z-index, not from 3D sorting. */
+
+.hero-track {
+    position: relative;
+}
+
+.hero-stage {
+    display: flex;
+    align-items: center;
+}
+
+.hero-inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: clamp(32px, 5vw, 64px);
+    width: min(1280px, 100% - 2 * clamp(20px, 5vw, 64px));
+    padding-block: clamp(48px, 8vh, 96px);
+    margin-inline: auto;
+}
+
+/* Asymmetric at desktop: identity in five columns, scene in seven. Below this
+   width the single-column default above is what ships, which is the static
+   fallback composition. */
+@media (min-width: 1024px) {
+    .hero-inner {
+        grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+        align-items: center;
+    }
+}
+
+/* --------------------------------------------------------------- identity --
+   Never inside a transformed layer, so text stays crisp and selectable and is
+   never clipped by a 3D ancestor. */
+.hero-identity h1 {
+    font-size: clamp(48px, 9.5vw, 144px);
+    line-height: 0.92;
+    letter-spacing: -0.045em;
+    font-weight: 500;
+}
+
+.hero-role {
+    margin-top: 16px;
+    color: var(--muted);
+    font-size: 15px;
+}
+
+.hero-tagline {
+    margin-top: 8px;
+    max-width: 34ch;
+    color: var(--text);
+}
+
+.hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 24px;
+    margin-top: 40px;
+}
+
+.hero-cta {
+    display: inline-flex;
+    align-items: center;
+    min-height: 48px;
+    padding: 0 24px;
+    border-radius: var(--radius);
+    background: var(--accent);
+    color: var(--on-accent);
+    font-weight: 500;
+}
+
+.hero-ghost {
+    display: inline-flex;
+    align-items: center;
+    min-height: 48px;
+    border-bottom: 1px solid var(--line-strong);
+}
+
+.hero-cta:hover,
+.hero-ghost:hover {
+    border-bottom-color: var(--accent);
+    color: var(--on-accent);
+}
+
+.hero-ghost:hover {
+    color: var(--accent);
+}
+
+/* ------------------------------------------------------------------ scene --
+   --p is the only value JavaScript ever writes, and only from Task 8 onward.
+   Everything else is derived here, matching the convention the .dm-* exhibit
+   already uses. At rest --p is 0, which IS the storyboard's progress-0 frame,
+   so a scriptless or reduced-motion desktop gets the designed composition
+   rather than a flattened one. */
+.hero-scene {
+    --p: 0;
+    --inv: calc(1 - var(--p));
+    /* ease-in, for the foreground frames that hold and then leave */
+    --p2: calc(var(--p) * var(--p));
+    --p4: calc(var(--p2) * var(--p2));
+    /* ease-out, for the focal plane's scale */
+    --eo: calc(1 - var(--inv) * var(--inv));
+    position: relative;
+    aspect-ratio: 4 / 3;
+    perspective: 1600px;
+}
+
+.hero-plane {
+    position: absolute;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--surface);
+    box-shadow: 0 40px 80px -32px rgba(0, 0, 0, 0.75);
+}
+
+.hero-plane img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+/* An atmosphere, not a panel: a faint accent tint plus a receding grid, no
+   solid fill. A hard-edged --surface/--bg rectangle here reads as a card
+   behind the scene rather than the space the scene sits in. */
+.hero-field {
+    position: absolute;
+    inset: -8% -6%;
+    z-index: 0;
+    border-radius: 16px;
+    background:
+        radial-gradient(120% 90% at 62% 30%, color-mix(in srgb, var(--accent) 10%, transparent), transparent 62%),
+        repeating-linear-gradient(90deg, var(--line) 0 1px, transparent 1px 80px),
+        repeating-linear-gradient(0deg, var(--line) 0 1px, transparent 1px 80px);
+}
+
+.hero-support {
+    z-index: 1;
+}
+
+.hero-support-a {
+    left: 16%;
+    top: 2%;
+    width: 54%;
+}
+
+.hero-support-b {
+    right: 0%;
+    top: 10%;
+    width: 46%;
+}
+
+.hero-focal {
+    left: 4%;
+    top: 20%;
+    width: 72%;
+    z-index: 3;
+}
+
+/* Deliberately NOT filled and NOT panel-shadowed. A solid grey rectangle in a
+   hero reads as a failed image, which is exactly the wrong signal for a frame
+   that has no content by design. Outline plus accent corner ticks, and the
+   composition visible through it, is what makes "empty" read as intentional. */
+.hero-frame {
+    position: absolute;
+    z-index: 4;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    background: linear-gradient(158deg, color-mix(in srgb, var(--accent) 7%, transparent), transparent 62%);
+}
+
+.hero-frame-l {
+    left: -6%;
+    bottom: 2%;
+    width: 20%;
+    aspect-ratio: 3 / 4;
+}
+
+.hero-tick {
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    border: 1px solid var(--accent);
+}
+
+.hero-tick-a {
+    top: 10px;
+    left: 10px;
+    border-right: 0;
+    border-bottom: 0;
+}
+
+.hero-tick-b {
+    bottom: 10px;
+    right: 10px;
+    border-left: 0;
+    border-top: 0;
+}
+
+/* foreground-b is a caption card labelling the focal plane, not a second
+   empty frame: the design's own name for this layer is "caption". The real,
+   full alt text for the same image lives on the Selected work figure below;
+   this repeats only the title, and stays inside the aria-hidden wrapper. */
+/* Anchored inside the scene's right edge, not outside it: translateZ(140px)
+   under the scene's perspective magnifies the card outward from the origin,
+   and a negative anchor here pushes it past the viewport at 1440. */
+.hero-frame-r {
+    right: 4%;
+    top: 4%;
+    width: clamp(140px, 20%, 200px);
+    padding: 14px;
+    background: var(--surface);
+}
+
+.hero-caption-k {
+    margin: 0 0 6px;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+}
+
+.hero-caption-v {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+}
+
+/* The scene's depth. These are functions of --p, so with no JavaScript they
+   render the storyboard's progress-0 frame exactly; Task 8 animates --p and the
+   same declarations carry the whole sequence. Deliberately NOT gated on
+   [data-motion="on"] or on prefers-reduced-motion: this is the design, not the
+   motion. Only pinning is gated, and that arrives in Task 8. */
+@media (min-width: 1024px) {
+    .hero-field {
+        transform: translate3d(0, calc(var(--p) * -24px), 0) scale(calc(1.04 - var(--p) * 0.04));
+        opacity: calc(var(--field-0) + var(--p) * (var(--field-1) - var(--field-0)));
+    }
+
+    .hero-support-a {
+        transform: translate3d(
+                calc(-96px + var(--p) * 40px),
+                calc(var(--p) * -56px),
+                calc(-180px + var(--p) * 84px)
+            )
+            rotateY(calc(-18deg + var(--p) * 12deg))
+            scale(calc(0.72 + var(--p) * 0.14));
+        opacity: calc(var(--plane-a-0) + var(--p) * (var(--plane-a-1) - var(--plane-a-0)));
+    }
+
+    .hero-support-b {
+        transform: translate3d(
+                calc(104px - var(--p) * 44px),
+                calc(var(--p) * -64px),
+                calc(-220px + var(--p) * 100px)
+            )
+            rotateY(calc(-16deg + var(--p) * 11deg))
+            scale(calc(0.68 + var(--p) * 0.14));
+        opacity: calc(var(--plane-b-0) + var(--p) * (var(--plane-b-1) - var(--plane-b-0)));
+    }
+
+    .hero-focal {
+        transform: translate3d(0, calc(var(--p) * -40px), 0)
+            rotateY(calc(var(--inv) * -12deg))
+            rotateX(calc(var(--inv) * 6deg))
+            scale(calc(0.82 + var(--eo) * 0.18));
+    }
+
+    .hero-frame-l {
+        transform: translate3d(calc(-40px + var(--p4) * -220px), calc(var(--p) * -120px), 120px)
+            rotateY(calc(-14deg + var(--p4) * -8deg));
+        opacity: calc(1 - var(--p2));
+    }
+
+    .hero-frame-r {
+        transform: translate3d(calc(40px + var(--p4) * 220px), calc(var(--p) * -120px), 140px)
+            rotateY(calc(-10deg + var(--p4) * 28deg));
+        opacity: calc(1 - var(--p2));
+    }
+}
+
+/* ------------------------------------------------------------ cinematic --
+   Pinning only. The scene's transforms live in Task 5's `min-width: 1024px`
+   block and are deliberately ungated, because they are the design rather than
+   the motion. What is gated here is the reserved scroll space and the sticky
+   stage: without JavaScript there is nothing to advance --p, so a pinned stage
+   would trap the visitor at progress 0 for 180dvh of empty scrolling.
+
+   Gated on the pre-paint flag AND the media query. The flag alone is not
+   enough: it is set once at boot, and the media query is what keeps a resized
+   window honest until the component re-evaluates. */
+
+/* The default value of transition-property is `all`, so every element starts
+   out reporting a transition even with no `transition` rule at all (its
+   duration just happens to be 0s). That default is exactly what would fight
+   the rAF loop the moment anyone later adds a duration here, so it is pinned
+   to `none` explicitly rather than left to the implicit default. Ungated:
+   this guard belongs at every breakpoint, not only the pinned one. */
+.hero-plane,
+.hero-field,
+.hero-frame,
+.hero-scene {
+    transition: none;
+}
+
+@media (min-width: 1024px) and (min-height: 700px) and (prefers-reduced-motion: no-preference) {
+    :root[data-motion="on"] .hero-track {
+        height: 180dvh;
+    }
+
+    :root[data-motion="on"] .hero-stage {
+        position: sticky;
+        top: var(--header-h);
+        height: calc(100dvh - var(--header-h));
+    }
+
+    :root[data-motion="on"] .hero-plane,
+    :root[data-motion="on"] .hero-field,
+    :root[data-motion="on"] .hero-frame {
+        will-change: transform;
+    }
+}
+
+/* ------------------------------------------------------- static fallback --
+   The default. Mobile, short screens, reduced motion and no JavaScript all
+   land here: normal flow, no pinning, no reserved scroll space, complete
+   focal image and a separated secondary image. */
+@media (max-width: 1023px) {
+    .hero-scene {
+        aspect-ratio: auto;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+        gap: 16px;
+        perspective: none;
+    }
+
+    .hero-plane,
+    .hero-field,
+    .hero-frame {
+        position: static;
+        transform: none;
+    }
+
+    .hero-field,
+    .hero-frame,
+    .hero-support-b {
+        display: none;
+    }
+
+    .hero-support-a,
+    .hero-focal {
+        width: 100%;
+        opacity: 1;
+        filter: none;
+    }
+
+    .hero-focal {
+        order: -1;
+    }
+}
