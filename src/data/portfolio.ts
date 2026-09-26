@@ -1,6 +1,6 @@
-// Public summaries only. Raw profile notes, private contact details, internal URLs,
-// and unverified metrics stay out of this module: everything here is allowed to be
-// serialized into a public response or rendered on a public page.
+// Public summaries only. Raw profile notes, private contact details and internal URLs
+// stay out of this module: everything here is allowed to be serialized into a public
+// response or rendered on a public page. Figures come from the published résumé.
 
 export const profile = {
     name: 'Mark Liberato',
@@ -11,10 +11,6 @@ export const profile = {
     linkedin: 'https://www.linkedin.com/in/mdl72/',
     site: 'https://markliberato.com',
     resume: '/resume.pdf',
-    /* The PDF is an older edition: its experience text and links are out of date and it
-       contains metrics this site does not stand behind. Every link to it carries this
-       qualifier, so the qualifier belongs with the data rather than in the markup. */
-    resumeNote: 'previous edition',
 };
 
 /** The published category values. `category` on the API accepts one of these, or `all`. */
@@ -252,18 +248,44 @@ export const experiments: Experiment[] = [
     },
 ];
 
-/** Each skill points at something a visitor can go and check. */
+/** Grouped as on the résumé. */
 export const skills = [
-    { skill: '3D and interaction engineering', evidence: '3D project ring', href: '/lab/3d' },
-    { skill: 'Asynchronous UI and request handling', evidence: 'Search and state', href: '/lab/data-explorer' },
-    { skill: 'Angular modernization', evidence: 'SOSHUB', href: '/work/soshub' },
-    { skill: 'CMS integration', evidence: 'Core Bridge Solutions', href: '/work/corebridge' },
-    { skill: 'Testing and delivery workflows', evidence: 'Enterprise applications', href: '/work/enterprise-platforms' },
+    {
+        group: 'Frontend',
+        items: ['React', 'Next.js', 'TypeScript', 'JavaScript', 'HTML5', 'CSS3', 'Tailwind CSS', 'SCSS/BEM', 'Material UI', 'ShadCN', 'Angular'],
+    },
+    {
+        group: 'UI and data',
+        items: ['Figma', 'Reusable components', 'Redux', 'Zustand', 'TanStack Query', 'REST APIs', 'GraphQL', 'Chart.js', 'ECharts'],
+    },
+    {
+        group: 'Testing and delivery',
+        items: ['Jest', 'React Testing Library', 'Jasmine', 'Karma', 'GitHub Actions', 'CI/CD', 'pnpm', 'Vercel', 'AWS'],
+    },
 ];
 
 export const experience = [
-    { period: '2023 — Present', company: 'Samsung R&D Institute Philippines', role: 'Engineer', detail: 'Full-stack engineering, platform modernization, and module ownership.' },
-    { period: '2022 — 2023', company: 'Collabera Digital Philippines', role: 'React.js Developer', detail: 'Essilor Eye Locator applications for Brazil and China; maps, analytics, and frontend tooling.' },
-    { period: '2018 — 2022', company: 'University of Makati', role: 'Media Center Coordinator / IT Team Lead', detail: 'Computer lab operations, infrastructure, and user support.' },
-    { period: '2016 — 2018', company: 'Rimport Industries', role: 'System Administrator', detail: 'The foundation in systems and IT operations.' },
+    {
+        period: 'May 2023 — Present',
+        company: 'Samsung Electronics Philippines Corporation',
+        role: 'Engineer',
+        detail: 'Reusable components, performance work and unit tests across internal portals and public websites. Led a React to Next.js migration, the SOSHUB Angular 17 to 19 upgrade, and set up automated testing (85%+ coverage) with faster GitHub Actions CI/CD.',
+    },
+    {
+        period: 'Mar 2022 — Apr 2023',
+        company: 'Collabera Digital Philippines',
+        role: 'React.js Developer',
+        detail: 'Essilor Eye Locator for Brazil and China with React and Google Maps. Moved analytics to GA4 with Google Tag Manager and modernized the toolchain with pnpm.',
+    },
+    {
+        period: 'Jul 2016 — Jan 2022',
+        company: 'University of Makati and Rimport Industries',
+        role: 'IT operations and system administration',
+        detail: 'The foundation in systems, infrastructure and user support.',
+    },
 ];
+
+export const education = {
+    degree: 'BS Computer Engineering, STI College, Global City (2016)',
+    training: 'Responsive Web Design (FreeCodeCamp), ReactJS (Cognixia)',
+};

@@ -1,11 +1,14 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import CinematicHero from '@/components/CinematicHero';
-import { categoryLabel, experience, experiments, profile, skills } from '@/data/portfolio';
+import { categoryLabel, education, experience, experiments, profile, skills } from '@/data/portfolio';
 import { publishedWork } from '@/lib/work';
 
 const featuredWithMedia = publishedWork.filter((entry) => entry.featured && entry.media);
 const additional = publishedWork.filter((entry) => !entry.featured);
+
+/* Full-bleed band behind the intro. Swap for the dedicated portrait scene once it exists. */
+const aboutImage = '/hero/scene-code.jpg';
 
 export default function Home() {
     return (
@@ -110,24 +113,32 @@ export default function Home() {
             {/* Skills and about share one band and one #about anchor, matching
                 the design board's single "Skills and about" section — Skills
                 is not a separate stop on the page. */}
-            <section className="band" id="about" aria-labelledby="about-title">
-                <div className="shell">
-                    <h2 id="about-title" className="band-title">
-                        Skills and about
-                    </h2>
-                    <div className="about-grid">
+            <section className="about" id="about" aria-labelledby="about-title">
+                <div className="about-reel" style={{ backgroundImage: `url(${aboutImage})` }}>
+                    <div className="about-scrim" />
+                    <div className="about-reel-inner">
+                        <h2 id="about-title" className="band-title">
+                            Skills and about
+                        </h2>
                         <div className="about-copy">
                             <p>
-                                I am a full-stack engineer based in {profile.location}. I started in systems
-                                administration and IT operations, moved into web development in 2022, and have worked
-                                on enterprise platforms and independent client projects since.
+                                I am a front-end focused engineer based in {profile.location}, with more than four
+                                years building web applications in React, Next.js and TypeScript. I work with design,
+                                product and backend teams on interfaces, reusable components and performance.
                             </p>
                             <p>
-                                That first job still shapes how I work. I am as interested in the pipeline and the
-                                tests as in the interface, and I would rather modernize something that people already
-                                depend on than start over.
+                                My work spans public websites, admin portals, UI modernization and automated testing.
+                                I started in systems administration and IT operations, which is why I care as much
+                                about the pipeline and the tests as the interface, and would rather modernize
+                                something people already depend on than start over.
                             </p>
+                        </div>
+                    </div>
+                </div>
 
+                <div className="shell about-details">
+                    <div className="about-columns">
+                        <div>
                             <h3 className="subhead">Career</h3>
                             <ol className="career-list">
                                 {experience.map((item) => (
@@ -142,28 +153,30 @@ export default function Home() {
                                 ))}
                             </ol>
                         </div>
-                        <figure className="portrait">
-                            <Image
-                                src="/hero3.webp"
-                                alt={`${profile.name}, ${profile.role}`}
-                                width={1507}
-                                height={2842}
-                                sizes="(max-width: 800px) 60vw, 320px"
-                            />
-                        </figure>
+                        <div>
+                            <h3 className="subhead">Education</h3>
+                            <p>{education.degree}</p>
+                            <p className="mono career-role">{education.training}</p>
+                        </div>
                     </div>
 
                     <h3 className="subhead">Skills</h3>
-                    <ul className="evidence-list">
+                    <dl className="skill-groups">
                         {skills.map((item) => (
-                            <li key={item.skill}>
-                                <span className="evidence-skill">{item.skill}</span>
-                                <Link className="mono" href={item.href}>
-                                    {item.evidence}
-                                </Link>
-                            </li>
+                            <div key={item.group}>
+                                <dt className="mono">{item.group}</dt>
+                                <dd>
+                                    <ul className="tag-row">
+                                        {item.items.map((skill) => (
+                                            <li key={skill} className="mono">
+                                                {skill}
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </dd>
+                            </div>
                         ))}
-                    </ul>
+                    </dl>
                 </div>
             </section>
 
@@ -194,7 +207,7 @@ export default function Home() {
                             LinkedIn
                         </a>
                         <a href={profile.resume} download>
-                            Résumé <span className="mono">{profile.resumeNote}</span>
+                            Résumé
                         </a>
                     </div>
                 </div>

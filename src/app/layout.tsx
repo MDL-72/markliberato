@@ -74,7 +74,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
                                 GitHub
                             </a>
                             <a className="mono" href={profile.resume} download>
-                                Résumé <span className="mono">{profile.resumeNote}</span>
+                                Résumé
                             </a>
                             <ThemeToggle />
                         </div>
@@ -96,7 +96,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
                             </a>
                             <a href={`mailto:${profile.email}`}>{profile.email}</a>
                             <a href={profile.resume} download>
-                                Résumé <span className="mono">{profile.resumeNote}</span>
+                                Résumé
                             </a>
                         </nav>
                     </div>
