@@ -1,8 +1,11 @@
+import type { CSSProperties } from 'react';
 import Link from 'next/link';
 import CareerTimeline from '@/components/CareerTimeline';
 import CinematicHero from '@/components/CinematicHero';
+import Reveal from '@/components/Reveal';
 import WorkCarousel from '@/components/WorkCarousel';
-import { categoryLabel, education, experience, experiments, profile, skills } from '@/data/portfolio';
+import { categoryLabel, experience, experiments, profile, skills } from '@/data/portfolio';
+import { skillIcon } from '@/lib/skillIcons';
 import { publishedWork } from '@/lib/work';
 
 const featuredWithMedia = publishedWork.filter((entry) => entry.featured && entry.media);
@@ -19,6 +22,23 @@ const carouselEntries = featuredWithMedia.map((entry) => ({
 
 /* Full-bleed band behind the intro. Swap for the dedicated portrait scene once it exists. */
 const aboutImage = '/hero/scene-code.jpg';
+
+function SkillItem({ name, index }: { name: string; index: number }) {
+    const icon = skillIcon(name);
+    const style = { '--i': index, ...(icon?.color ? { '--brand': icon.color } : {}) } as CSSProperties;
+    return (
+        <li style={style}>
+            {icon ? (
+                <svg className="skill-icon" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d={icon.path} />
+                </svg>
+            ) : (
+                <span className="skill-icon skill-icon--dot" aria-hidden="true" />
+            )}
+            <span className="skill-name">{name}</span>
+        </li>
+    );
+}
 
 export default function Home() {
     return (
@@ -114,27 +134,20 @@ export default function Home() {
                 <CareerTimeline jobs={experience} />
 
                 <div className="shell about-details">
-                    <h3 className="subhead">Education</h3>
-                    <p>{education.degree}</p>
-                    <p className="mono career-role">{education.training}</p>
-
                     <h3 className="subhead">Skills</h3>
-                    <dl className="skill-groups">
-                        {skills.map((item) => (
-                            <div key={item.group}>
-                                <dt className="mono">{item.group}</dt>
-                                <dd>
-                                    <ul className="tag-row">
-                                        {item.items.map((skill) => (
-                                            <li key={skill} className="mono">
-                                                {skill}
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </dd>
-                            </div>
+                    <div className="skills-cols">
+                        {skills.map((group, index) => (
+                            <Reveal className="skills-col" key={group.group}>
+                                <p className="mono skills-col-index">{String(index + 1).padStart(2, '0')}</p>
+                                <h4>{group.group}</h4>
+                                <ul>
+                                    {group.items.map((skill, i) => (
+                                        <SkillItem key={skill} name={skill} index={i} />
+                                    ))}
+                                </ul>
+                            </Reveal>
                         ))}
-                    </dl>
+                    </div>
                 </div>
             </section>
 

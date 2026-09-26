@@ -435,30 +435,6 @@ main:focus {
     margin-bottom: 4px;
 }
 
-.skill-groups {
-    margin-top: 8px;
-}
-
-.skill-groups > div {
-    display: grid;
-    grid-template-columns: 200px minmax(0, 1fr);
-    gap: 8px 24px;
-    padding: 20px 0;
-    border-bottom: 1px solid var(--line);
-}
-
-.skill-groups dt {
-    color: var(--muted);
-    font-size: 13px;
-    padding-top: 4px;
-}
-
-@media (max-width: 700px) {
-    .skill-groups > div {
-        grid-template-columns: 1fr;
-    }
-}
-
 .about-copy p {
     color: var(--muted);
     max-width: 62ch;
@@ -1687,5 +1663,118 @@ main:focus {
 
     .carousel-count {
         display: none;
+    }
+}
+
+/* ------------------------------------------------------ education, skills -- */
+.skills-cols {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0 clamp(32px, 4vw, 64px);
+}
+
+.skills-col h4 {
+    margin-bottom: 8px;
+    font-size: clamp(24px, 2.6vw, 34px);
+    font-weight: 500;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+}
+
+.skills-col-index {
+    color: var(--muted);
+    font-size: 13px;
+    margin-bottom: 12px;
+}
+
+.skills-col ul {
+    margin-top: 20px;
+    border-top: 1px solid var(--line);
+}
+
+.skills-col li {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 11px 0 11px 0;
+    border-bottom: 1px solid var(--line);
+    color: var(--muted);
+    font-size: 18px;
+    transition: color 0.2s var(--ease);
+}
+
+.skills-col li:hover {
+    color: var(--text);
+}
+
+/* Nudge the icon and name with transform; the row and its rule stay put. */
+.skills-col li > .skill-icon,
+.skill-name {
+    transition: transform 0.2s var(--ease);
+}
+
+.skills-col li:hover > .skill-icon,
+.skills-col li:hover .skill-name {
+    transform: translateX(10px);
+}
+
+.skill-icon {
+    flex: none;
+    width: 20px;
+    height: 20px;
+    fill: currentColor;
+    opacity: 0.7;
+    transition: fill 0.25s var(--ease), opacity 0.25s var(--ease), transform 0.2s var(--ease);
+}
+
+/* Mono until hovered, then the brand colour where it reads on both themes. */
+.skills-col li:hover .skill-icon {
+    fill: var(--brand, var(--text));
+    opacity: 1;
+}
+
+.skill-icon--dot {
+    display: block;
+    width: 6px;
+    height: 6px;
+    margin: 0 7px;
+    border-radius: 50%;
+    background: currentColor;
+    opacity: 0.4;
+}
+
+/* Reveal: hidden only while pending, staggered once in. */
+.skills-col[data-reveal='pending'] .skills-col-index,
+.skills-col[data-reveal='pending'] h4,
+.skills-col[data-reveal='pending'] li {
+    opacity: 0;
+    transform: translateY(12px);
+}
+
+.skills-col[data-reveal='in'] .skills-col-index,
+.skills-col[data-reveal='in'] h4,
+.skills-col[data-reveal='in'] li {
+    animation: rise 0.6s var(--ease) both;
+}
+
+.skills-col[data-reveal='in'] li {
+    animation-delay: calc(var(--i, 0) * 45ms + 120ms);
+}
+
+@keyframes rise {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+@media (max-width: 800px) {
+    .skills-cols {
+        grid-template-columns: 1fr;
+        gap: 48px;
     }
 }

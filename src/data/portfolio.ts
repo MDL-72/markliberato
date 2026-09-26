@@ -283,9 +283,10 @@ export const experience = [
         role: 'IT operations and system administration',
         detail: 'The foundation in systems, infrastructure and user support.',
     },
+    {
+        period: '2016',
+        company: 'STI College, Global City',
+        role: 'BS Computer Engineering',
+        detail: 'Where it started. Later added Responsive Web Design (FreeCodeCamp) and ReactJS (Cognixia).',
+    },
 ];
-
-export const education = {
-    degree: 'BS Computer Engineering, STI College, Global City (2016)',
-    training: 'Responsive Web Design (FreeCodeCamp), ReactJS (Cognixia)',
-};
