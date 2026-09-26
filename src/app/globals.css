@@ -1584,3 +1584,37 @@ main:focus {
         transition-duration: 0.001ms !important;
     }
 }
+
+/* ======================================================== 3D project ring == */
+.td-stage {
+    position: relative;
+    height: min(60vh, 520px);
+    margin-block: 2rem;
+    border: 1px solid var(--line, currentColor);
+    border-radius: 12px;
+    cursor: grab;
+    touch-action: pan-y;
+}
+.td-stage:active {
+    cursor: grabbing;
+}
+.td-loading {
+    display: grid;
+    place-items: center;
+}
+.td-caption {
+    position: absolute;
+    inset: auto 0 0.75rem;
+    text-align: center;
+    pointer-events: none;
+}
+.td-fallback {
+    display: none;
+    list-style: none;
+    padding: 0;
+    margin-block: 2rem;
+}
+.td-fallback img {
+    max-width: 100%;
+    height: auto;
+}

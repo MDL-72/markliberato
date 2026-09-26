@@ -1,37 +1,16 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import CinematicHero, { type HeroPlane } from '@/components/CinematicHero';
+import CinematicHero from '@/components/CinematicHero';
 import { categoryLabel, experience, experiments, profile, skills } from '@/data/portfolio';
 import { publishedWork } from '@/lib/work';
 
-/* soshub is `featured` but carries no `media`, so it is excluded from
-   `featuredWithMedia` by construction and rendered as its own typographic
-   entry below instead of as an image feature. */
 const featuredWithMedia = publishedWork.filter((entry) => entry.featured && entry.media);
-// Guaranteed present in portfolio.ts; asserted rather than optionally chained
-// so the render below can use its fields directly.
-const soshub = publishedWork.find((entry) => entry.slug === 'soshub')!;
 const additional = publishedWork.filter((entry) => !entry.featured);
-
-/* The scene reuses screenshots that Selected work presents properly below.
-   Pulling them from the same records keeps one source of truth: if a media
-   entry changes in portfolio.ts, the scene follows. */
-function plane(slug: string): HeroPlane {
-    const entry = publishedWork.find((item) => item.slug === slug);
-    if (!entry?.media) throw new Error(`Hero plane "${slug}" has no media in portfolio.ts`);
-    return entry.media;
-}
 
 export default function Home() {
     return (
         <main id="main" tabIndex={-1}>
-            <CinematicHero
-                name={profile.name}
-                role={profile.role}
-                tagline="Web interfaces. Systems thinking."
-                focal={plane('corebridge')}
-                support={[plane('8gigki'), plane('svis')]}
-            />
+            <CinematicHero name={profile.name} role={profile.role} tagline="Web interfaces. Systems thinking." />
 
             <section className="band" id="work" aria-labelledby="work-title">
                 <div className="shell">
@@ -77,48 +56,6 @@ export default function Home() {
                 </div>
             </section>
 
-            <section className="band soshub" id="soshub" aria-labelledby="soshub-title">
-                <div className="shell">
-                    <article className="soshub-body">
-                        <div className="soshub-mark">
-                            {/* Continues the index the two image features started (01, 02), derived
-                                from their count rather than written as a literal "03". */}
-                            <p className="mono feature-index">
-                                {String(featuredWithMedia.length + 1).padStart(2, '0')} — {categoryLabel(soshub.category)} · {soshub.period}
-                            </p>
-                            {/* The band's only heading: the entry's real title, rendered verbatim
-                                (it already carries the "SOSHUB" name), so the band is not left
-                                with the literal string "SOSHUB" repeated as two consecutive
-                                headings. This is the band's h2, matching the heading level every
-                                other band uses for its own title. */}
-                            <h2 id="soshub-title">{soshub.title}</h2>
-                            <p className="soshub-label mono">Internal platform · no public screenshots · no demo link</p>
-                            <p className="feature-summary">{soshub.summary}</p>
-                        </div>
-                        <div className="soshub-detail">
-                            <p className="mono feature-role">{soshub.role}</p>
-                            <ul className="soshub-contributions">
-                                {soshub.contributions.map((item) => (
-                                    <li key={item}>{item}</li>
-                                ))}
-                            </ul>
-                            <ul className="tag-row" aria-label="Technologies">
-                                {soshub.technologies.map((tech) => (
-                                    <li key={tech} className="mono">
-                                        {tech}
-                                    </li>
-                                ))}
-                            </ul>
-                            {/* Rendered verbatim — do not paraphrase or soften. */}
-                            <p className="soshub-inspect">{soshub.inspect}</p>
-                            <Link className="text-link" href={`/work/${soshub.slug}`}>
-                                Read the contribution record
-                            </Link>
-                        </div>
-                    </article>
-                </div>
-            </section>
-
             <section className="band" id="more" aria-labelledby="more-title">
                 <div className="shell">
                     <h2 id="more-title" className="band-title">
@@ -141,8 +78,7 @@ export default function Home() {
                 </div>
             </section>
 
-            {/* Task 7, correction 5: Experiments moves past Selected work, SOSHUB
-                and Additional projects — it is not the leftover first band it
+            {/* Experiments follows Selected work and Additional projects — it is not the leftover first band it
                 used to be. Brought over to the same .band / .band-title shell
                 pattern those three finished bands already use. */}
             <section className="band" id="lab" aria-labelledby="lab-title">

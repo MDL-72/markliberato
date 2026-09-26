@@ -49,7 +49,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
                 <noscript
                     dangerouslySetInnerHTML={{
                         __html:
-                            '<style>.dm-app,.se-app{display:none!important}.dm-fallback,.se-fallback{display:block!important}</style>',
+                            '<style>.td-app,.se-app{display:none!important}.td-fallback,.se-fallback{display:block!important}</style>',
                     }}
                 />
             </head>

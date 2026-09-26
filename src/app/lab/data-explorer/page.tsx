@@ -107,8 +107,8 @@ export default function DataExplorer() {
             </section>
 
             <p className="page-next">
-                <Link className="text-link" href="/lab/motion">
-                    Other experiment: Depth and motion
+                <Link className="text-link" href="/lab/3d">
+                    Other experiment: 3D project ring
                 </Link>
             </p>
         </main>

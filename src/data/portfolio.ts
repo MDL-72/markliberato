@@ -76,7 +76,7 @@ export const work: WorkEntry[] = [
         technologies: ['Angular', 'TypeScript', 'RxJS'],
         links: [],
         published: true,
-        featured: true,
+        featured: false,
     },
     {
         slug: 'corebridge',
@@ -159,7 +159,7 @@ export const work: WorkEntry[] = [
         },
         links: [{ label: 'springofvirtue.com', href: 'https://www.springofvirtue.com/' }],
         published: true,
-        featured: false,
+        featured: true,
     },
     {
         slug: 'soscon',
@@ -219,23 +219,22 @@ export type Experiment = {
     instruction: string;
     /** Which engineering behavior the experiment demonstrates. */
     demonstrates: string[];
-    component: 'depth-motion' | 'search-state';
+    component: 'project-ring-3d' | 'search-state';
 };
 
 export const experiments: Experiment[] = [
     {
-        slug: 'depth-and-motion',
-        title: 'Depth and motion',
-        href: '/lab/motion',
-        summary:
-            'A layered composition driven by a single progress value, with depth, separation and easing exposed as controls.',
-        instruction: 'Scrub the timeline to explore the layers.',
+        slug: 'project-ring-3d',
+        title: '3D project ring',
+        href: '/lab/3d',
+        summary: 'Screenshots of real projects placed on a ring in three-dimensional space, rendered with WebGL.',
+        instruction: 'Drag to rotate the ring. Click a panel to see which project it is.',
         demonstrates: [
-            'Animation driven by one progress value',
-            'Continuous values kept out of render state',
-            'Reduced-motion and no-JavaScript fallbacks',
+            'WebGL scene built with three.js and React Three Fiber',
+            'Render on demand, so nothing runs at rest',
+            'Static image fallback without JavaScript',
         ],
-        component: 'depth-motion',
+        component: 'project-ring-3d',
     },
     {
         slug: 'search-and-state',
@@ -255,7 +254,7 @@ export const experiments: Experiment[] = [
 
 /** Each skill points at something a visitor can go and check. */
 export const skills = [
-    { skill: 'Animation and interaction engineering', evidence: 'Depth and motion', href: '/lab/motion' },
+    { skill: '3D and interaction engineering', evidence: '3D project ring', href: '/lab/3d' },
     { skill: 'Asynchronous UI and request handling', evidence: 'Search and state', href: '/lab/data-explorer' },
     { skill: 'Angular modernization', evidence: 'SOSHUB', href: '/work/soshub' },
     { skill: 'CMS integration', evidence: 'Core Bridge Solutions', href: '/work/corebridge' },
