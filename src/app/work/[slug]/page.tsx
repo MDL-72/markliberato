@@ -43,10 +43,6 @@ export default async function WorkPage({ params }: Params) {
                     <dt className="mono">Role</dt>
                     <dd>{entry.role}</dd>
                 </div>
-                <div>
-                    <dt className="mono">Period</dt>
-                    <dd>{entry.period}</dd>
-                </div>
             </dl>
 
             {entry.media && (

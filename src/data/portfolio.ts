@@ -112,7 +112,7 @@ export const work: WorkEntry[] = [
         category: 'client-site',
         period: 'Rebuilt in 2025',
         summary: 'A company showcase built twice, with the front-end practice in between.',
-        role: 'Freelance Developer',
+        role: 'Full-Stack Developer',
         contributions: [
             'Built the original showcase site in React with BEM-organized CSS.',
             'Rebuilt it in 2025 on Next.js and Tailwind CSS with a new design.',
@@ -140,7 +140,7 @@ export const work: WorkEntry[] = [
         category: 'client-site',
         period: '2023 — 2024',
         summary: 'A school public site, plus the portal the staff actually use.',
-        role: 'Freelance Developer',
+        role: 'Full-Stack Developer',
         contributions: [
             'Developed the public school landing page in Next.js and Tailwind CSS.',
             'Worked on the employee portal behind it, using Firebase for data and authentication.',
