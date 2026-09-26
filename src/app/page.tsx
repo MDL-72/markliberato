@@ -1,12 +1,21 @@
-import Image from 'next/image';
 import Link from 'next/link';
 import CareerTimeline from '@/components/CareerTimeline';
 import CinematicHero from '@/components/CinematicHero';
+import WorkCarousel from '@/components/WorkCarousel';
 import { categoryLabel, education, experience, experiments, profile, skills } from '@/data/portfolio';
 import { publishedWork } from '@/lib/work';
 
 const featuredWithMedia = publishedWork.filter((entry) => entry.featured && entry.media);
 const additional = publishedWork.filter((entry) => !entry.featured);
+const carouselEntries = featuredWithMedia.map((entry) => ({
+    slug: entry.slug,
+    title: entry.title,
+    category: categoryLabel(entry.category),
+    summary: entry.summary,
+    role: entry.role,
+    technologies: entry.technologies,
+    media: entry.media!,
+}));
 
 /* Full-bleed band behind the intro. Swap for the dedicated portrait scene once it exists. */
 const aboutImage = '/hero/scene-code.jpg';
@@ -21,43 +30,8 @@ export default function Home() {
                     <h2 id="work-title" className="band-title">
                         Selected work
                     </h2>
-                    {featuredWithMedia.map((entry, index) => (
-                        <article className={`feature${index % 2 === 1 ? ' feature--flip' : ''}`} key={entry.slug}>
-                            <div className="feature-media">
-                                <Link className="feature-shot" href={`/work/${entry.slug}`}>
-                                    {/* The primary presentation of this work, so it takes the entry's
-                                        real alt text rather than the empty alt used for the hero's
-                                        decorative duplicates of the same screenshots. */}
-                                    <Image
-                                        src={entry.media!.src}
-                                        alt={entry.media!.alt}
-                                        width={entry.media!.width}
-                                        height={entry.media!.height}
-                                        sizes="(max-width: 900px) 90vw, 640px"
-                                    />
-                                </Link>
-                            </div>
-                            <div className="feature-body">
-                                <p className="mono feature-index">
-                                    {String(index + 1).padStart(2, '0')} — {categoryLabel(entry.category)}
-                                </p>
-                                <h3>{entry.title}</h3>
-                                <p className="feature-summary">{entry.summary}</p>
-                                <p className="mono feature-role">{entry.role}</p>
-                                <ul className="tag-row" aria-label="Technologies">
-                                    {entry.technologies.map((tech) => (
-                                        <li key={tech} className="mono">
-                                            {tech}
-                                        </li>
-                                    ))}
-                                </ul>
-                                <Link className="text-link" href={`/work/${entry.slug}`}>
-                                    Read the notes
-                                </Link>
-                            </div>
-                        </article>
-                    ))}
                 </div>
+                <WorkCarousel entries={carouselEntries} />
             </section>
 
             <section className="band" id="more" aria-labelledby="more-title">

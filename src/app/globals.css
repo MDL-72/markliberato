@@ -18,9 +18,8 @@
     --panel: rgba(242, 243, 238, 0.075);
     --radius: 6px;
     --ease: cubic-bezier(0.2, 0.75, 0.2, 1);
-    /* .header-inner is min-height 64px and .site-header adds a 1px bottom border.
-       The cinematic stage pins directly beneath the header, so it needs the real
-       rendered height, not the content height. */
+    /* Rendered height of the fixed header (64px row plus its 1px border). It wraps
+       to two rows on narrow screens, see the 700px block. Interior pages pad by it. */
     --header-h: 65px;
     /* Depth in the layered scene is carried by opacity as well as by scale and z.
        Theme-conditional, because the dark-tuned values disappear on the light
@@ -337,36 +336,6 @@ main:focus {
     padding: clamp(36px, 6vh, 56px) 0 clamp(20px, 3vh, 28px);
 }
 
-.intro-role {
-    color: var(--accent);
-    margin-top: 8px;
-}
-
-.intro-line {
-    color: var(--muted);
-    margin-top: 10px;
-    max-width: 46ch;
-}
-
-.exhibit {
-    padding-bottom: 24px;
-}
-
-.exhibit-head {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: baseline;
-    gap: 8px 20px;
-    margin-bottom: 16px;
-    padding-bottom: 14px;
-    border-bottom: 1px solid var(--line);
-}
-
-.exhibit-head p {
-    color: var(--muted);
-    font-size: 15px;
-}
-
 /* Design authority: board.html's .cards / .card — a two-up grid of bordered,
    panel-filled cards, each holding one experiment. Class names are the
    brief's (.lab-list, .lab-entry) because the checks assert .lab-entry. */
@@ -408,56 +377,6 @@ main:focus {
 
 .lab-entry .tag-row {
     margin-top: 16px;
-}
-
-.work-list {
-    margin-top: 8px;
-}
-
-.work-row {
-    display: grid;
-    grid-template-columns: 190px minmax(0, 1fr) 300px;
-    gap: 32px;
-    padding: 34px 0;
-    border-bottom: 1px solid var(--line);
-    align-items: start;
-}
-
-.work-meta p {
-    color: var(--muted);
-}
-
-.work-period {
-    margin-top: 6px;
-    opacity: 0.75;
-}
-
-.work-body h3 a:hover {
-    color: var(--accent);
-}
-
-.work-summary {
-    margin-top: 10px;
-    color: var(--muted);
-}
-
-.work-role {
-    margin-top: 12px;
-    color: var(--accent);
-}
-
-.work-body .tag-row {
-    margin-top: 16px;
-}
-
-.work-body .text-link {
-    margin-top: 6px;
-}
-
-.work-shot {
-    border: 1px solid var(--line);
-    border-radius: var(--radius);
-    overflow: hidden;
 }
 
 /* Design authority: board.html's .compact / .compact__row / .compact__meta —
@@ -530,14 +449,6 @@ main:focus {
     }
 }
 
-.about-grid {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) 320px;
-    gap: 48px;
-    margin-top: 32px;
-    align-items: start;
-}
-
 .about-copy p {
     color: var(--muted);
     max-width: 62ch;
@@ -584,16 +495,6 @@ main:focus {
     }
 }
 
-/* Design authority: board.html's .career — a stacked list of rows, each a
-   160px date column beside a flexible content column, not a card grid. */
-.career-list li {
-    display: grid;
-    grid-template-columns: 160px minmax(0, 1fr);
-    gap: 24px;
-    padding: 20px 0;
-    border-top: 1px solid var(--line);
-}
-
 .career-period {
     color: var(--accent);
     margin-bottom: 12px;
@@ -602,11 +503,6 @@ main:focus {
 .career-role {
     color: var(--muted);
     margin: 4px 0 8px;
-}
-
-.career-list li p:last-child {
-    color: var(--muted);
-    font-size: 15px;
 }
 
 /* --------------------------------------------------------- section scale --
@@ -633,68 +529,9 @@ main:focus {
    in 5, alternating sides between entries. Class names are the brief's
    (.feature, .feature-shot) because later tasks and the QA checks assert
    them; the proportions, alternation and index/meta line are the board's. */
-.feature {
-    display: grid;
-    grid-template-columns: repeat(12, 1fr);
-    gap: clamp(20px, 3vw, 32px);
-    align-items: center;
-    padding-block: clamp(40px, 6vh, 72px);
-}
-
-.feature + .feature {
-    border-top: 1px solid var(--line);
-}
-
-.feature-media {
-    grid-column: 1 / span 7;
-}
-
-.feature-body {
-    grid-column: 8 / span 5;
-}
-
-.feature--flip .feature-media {
-    grid-column: 6 / span 7;
-}
-
-.feature--flip .feature-body {
-    grid-column: 1 / span 5;
-    order: -1;
-}
-
-.feature-shot {
-    display: block;
-    overflow: hidden;
-    border: 1px solid var(--line);
-    border-radius: var(--radius);
-    aspect-ratio: 2 / 1;
-    background: var(--surface);
-}
-
-.feature-shot img {
-    display: block;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: top center;
-}
-
 .feature-index {
     color: var(--muted);
     margin-bottom: 12px;
-}
-
-.feature-body h3 {
-    font-size: clamp(26px, 3vw, 40px);
-    letter-spacing: -0.025em;
-    margin-bottom: 12px;
-}
-
-.feature-summary {
-    color: var(--muted);
-    font-size: 16px;
-    line-height: 1.6;
-    margin-bottom: 16px;
 }
 
 .feature-role {
@@ -702,78 +539,9 @@ main:focus {
     margin-bottom: 16px;
 }
 
-.feature-body .tag-row {
-    margin-bottom: 16px;
-}
-
 /* ---------------------------------------------------------------- soshub --
    Board's .typographic: same 7/5 split as .feature, but no image column —
    SOSHUB is an internal platform with no public screenshots. */
-.soshub-body {
-    display: grid;
-    grid-template-columns: repeat(12, 1fr);
-    gap: clamp(20px, 3vw, 32px);
-}
-
-.soshub-mark {
-    grid-column: 1 / span 7;
-}
-
-.soshub-detail {
-    grid-column: 8 / span 5;
-}
-
-.soshub-mark h2 {
-    font-size: clamp(28px, 4vw, 48px);
-    letter-spacing: -0.03em;
-    line-height: 1.05;
-    margin-bottom: 16px;
-}
-
-.soshub-label {
-    display: inline-flex;
-    align-items: center;
-    color: var(--text);
-    background: var(--panel);
-    border: 1px solid var(--line);
-    border-radius: 999px;
-    padding: 6px 12px;
-    margin-bottom: 20px;
-}
-
-.soshub-contributions {
-    margin-bottom: 16px;
-}
-
-.soshub-contributions li {
-    position: relative;
-    padding: 8px 0 8px 18px;
-    color: var(--muted);
-    font-size: 15px;
-    line-height: 1.6;
-    border-bottom: 1px solid var(--line);
-}
-
-.soshub-contributions li::before {
-    content: "";
-    position: absolute;
-    left: 0;
-    top: 18px;
-    width: 8px;
-    height: 1px;
-    background: var(--accent);
-}
-
-.soshub-detail .tag-row {
-    margin: 16px 0;
-}
-
-.soshub-inspect {
-    color: var(--muted);
-    font-size: 15px;
-    line-height: 1.6;
-    margin-bottom: 16px;
-}
 
 /* --------------------------------------------------------------- contact --
    Design authority: board.html's .site-foot / .site-foot__grid — a 12-column
@@ -827,7 +595,7 @@ main:focus {
 /* ------------------------------------------------------- interior pages -- */
 .page {
     /* Clears the fixed header. */
-    padding: calc(64px + clamp(32px, 5vh, 48px)) 0 0;
+    padding: calc(var(--header-h) + clamp(32px, 5vh, 48px)) 0 0;
 }
 
 .breadcrumb {
@@ -997,208 +765,7 @@ main:focus {
     opacity: 0.7;
 }
 
-/* ================================================ depth and motion exhibit == */
-.dm-stage {
-    /* --p (eased progress), --depth and --sep are written by the component.
-       --dscale lets small screens flatten the whole composition at once. */
-    --dscale: 1;
-    --d: calc(var(--depth) / 100 * var(--dscale));
-    --s: calc(var(--sep) / 100);
-    --inv: calc(1 - var(--p));
-    position: relative;
-    aspect-ratio: 16 / 9;
-    border: 1px solid var(--line);
-    border-radius: var(--radius);
-    background:
-        radial-gradient(120% 110% at 50% 8%, var(--panel), transparent 62%),
-        var(--surface);
-    overflow: hidden;
-    perspective: 900px;
-}
-
-.dm-space {
-    position: absolute;
-    inset: 0;
-    display: grid;
-    place-items: center;
-    transform-style: preserve-3d;
-}
-
-.dm-space > * {
-    grid-area: 1 / 1;
-}
-
-.dm-field {
-    width: 190%;
-    height: 190%;
-    background-image: linear-gradient(var(--grid) 1px, transparent 1px),
-        linear-gradient(90deg, var(--grid) 1px, transparent 1px);
-    background-size: 48px 48px;
-    mask-image: radial-gradient(closest-side, #000 30%, transparent 100%);
-    transform: translateZ(calc(var(--inv) * -280px * var(--d))) rotateX(calc(var(--inv) * 34deg));
-}
-
-.dm-panel {
-    width: 34%;
-    aspect-ratio: 4 / 3;
-    padding: 12px;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    gap: 7px;
-    border: 1px solid var(--line-strong);
-    border-radius: var(--radius);
-    background: var(--panel);
-}
-
-/* Resting offsets come first in each transform, so at progress 1 every --inv
-   term is zero and the layers land in a flat, readable arrangement. The --s
-   multipliers are deliberately bounded: at maximum separation the outermost
-   layer still has to sit inside the frame, not travel out of it. */
-.dm-panel-back {
-    transform: translate3d(
-            calc(-46% + var(--inv) * -44% * (0.35 + var(--s) * 0.45)),
-            calc(-8% + var(--inv) * -12%),
-            calc(var(--inv) * -190px * var(--d))
-        )
-        rotateY(calc(var(--inv) * 30deg)) rotateX(calc(var(--inv) * -10deg));
-}
-
-.dm-panel-mid {
-    transform: translate3d(
-            calc(46% + var(--inv) * 40% * (0.35 + var(--s) * 0.45)),
-            calc(8% + var(--inv) * -7%),
-            calc(var(--inv) * -105px * var(--d))
-        )
-        rotateY(calc(var(--inv) * -24deg)) rotateX(calc(var(--inv) * 8deg));
-}
-
-.dm-subject {
-    width: 34%;
-    aspect-ratio: 5 / 4;
-    display: flex;
-    flex-direction: column;
-    border: 1px solid var(--accent);
-    border-radius: var(--radius);
-    background: var(--surface);
-    overflow: hidden;
-    transform: translate3d(0, calc(var(--inv) * 4%), calc(var(--inv) * 70px * var(--d)))
-        rotateY(calc(var(--inv) * -30deg)) rotateX(calc(var(--inv) * 12deg))
-        scale(calc(0.9 + var(--p) * 0.1));
-}
-
-.dm-subject-head {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 9px 11px;
-    border-bottom: 1px solid var(--line);
-}
-
-.dm-dot {
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background: var(--accent);
-    flex: none;
-}
-
-.dm-rule {
-    height: 1px;
-    flex: 1;
-    background: var(--line-strong);
-}
-
-.dm-subject-body {
-    display: flex;
-    flex-direction: column;
-    gap: 7px;
-    padding: 11px;
-    flex: 1;
-}
-
-.dm-bar {
-    height: 5px;
-    border-radius: 3px;
-    background: var(--line-strong);
-}
-
-.dm-bar-short {
-    width: 58%;
-}
-
-.dm-meter {
-    display: flex;
-    align-items: flex-end;
-    gap: 5px;
-    margin-top: auto;
-    height: 44%;
-}
-
-.dm-meter i {
-    flex: 1;
-    border-radius: 2px 2px 0 0;
-    background: var(--accent);
-    opacity: 0.55;
-}
-
-/* The foreground travels further and in the opposite direction, which is what
-   reads as depth: --sep sets how much faster it moves than the background. */
-.dm-chip {
-    width: 10%;
-    aspect-ratio: 1;
-    border: 1px solid var(--accent);
-    border-radius: var(--radius);
-    background: var(--panel);
-}
-
-.dm-chip-a {
-    transform: translate3d(
-            calc(-230% + var(--inv) * -70% * (0.5 + var(--s) * 0.5)),
-            calc(150% + var(--inv) * 46%),
-            calc(var(--inv) * 70px * var(--d))
-        )
-        rotate(calc(var(--inv) * -16deg));
-}
-
-.dm-chip-b {
-    transform: translate3d(
-            calc(225% + var(--inv) * 72% * (0.5 + var(--s) * 0.5)),
-            calc(-152% + var(--inv) * -42%),
-            calc(var(--inv) * 52px * var(--d))
-        )
-        rotate(calc(var(--inv) * 14deg));
-}
-
 /* ------------------------------------------------------- exhibit controls -- */
-.dm-controls {
-    margin-top: 16px;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-}
-
-.dm-timeline,
-.dm-adjust-row {
-    display: grid;
-    grid-template-columns: 92px minmax(0, 1fr) 52px;
-    align-items: center;
-    gap: 14px;
-}
-
-.dm-timeline label,
-.dm-adjust-row label {
-    font-size: 14px;
-    color: var(--muted);
-}
-
-.dm-value {
-    font-family: var(--font-geist-mono), ui-monospace, monospace;
-    font-size: 13px;
-    text-align: right;
-    color: var(--accent);
-    font-variant-numeric: tabular-nums;
-}
 
 .dm input[type="range"] {
     width: 100%;
@@ -1207,14 +774,6 @@ main:focus {
     cursor: pointer;
 }
 
-.dm-buttons {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 10px;
-}
-
-.dm-buttons button,
 .se button {
     min-height: 44px;
     padding: 0 18px;
@@ -1224,7 +783,6 @@ main:focus {
     cursor: pointer;
 }
 
-.dm-buttons button:hover:not(:disabled),
 .se button:hover:not(:disabled) {
     border-color: var(--accent);
     color: var(--accent);
@@ -1235,28 +793,6 @@ main:focus {
     cursor: not-allowed;
 }
 
-.dm-open {
-    display: inline-flex;
-    align-items: center;
-    min-height: 44px;
-    margin-left: auto;
-    color: var(--accent);
-    font-size: 15px;
-}
-
-.dm-open:hover {
-    text-decoration: underline;
-}
-
-.dm-adjust {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    padding-top: 16px;
-    border-top: 1px solid var(--line);
-}
-
-.dm-adjust select,
 .se select,
 .se input[type="search"] {
     min-height: 44px;
@@ -1266,7 +802,6 @@ main:focus {
     border-radius: var(--radius);
 }
 
-.dm-note,
 .se-note,
 .se-mode-note {
     color: var(--muted);
@@ -1276,33 +811,8 @@ main:focus {
 /* The interactive UI and its static fallback both ship in the HTML. This hides
    the fallback; the noscript rule in the layout inverts the pair when scripting
    is off. Nothing swaps after hydration, so neither experiment shifts layout. */
-.dm-fallback,
 .se-fallback {
     display: none;
-}
-
-.dm-nojs {
-    margin-top: 20px;
-}
-
-.dm-nojs > p {
-    color: var(--muted);
-    font-size: 15px;
-    max-width: 68ch;
-}
-
-.dm-frames {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 14px;
-    margin-top: 18px;
-}
-
-.dm-frames figcaption {
-    margin-top: 8px;
-    font-family: var(--font-geist-mono), ui-monospace, monospace;
-    font-size: 12px;
-    color: var(--muted);
 }
 
 /* ================================================= search and state explorer == */
@@ -1421,173 +931,89 @@ main:focus {
 
 /* ------------------------------------------------------------ responsive -- */
 @media (max-width: 900px) {
-    .work-row {
-        grid-template-columns: minmax(0, 1fr);
-        gap: 16px;
-    }
 
-    .work-meta {
-        display: flex;
-        gap: 20px;
-    }
-
-    .work-period {
-        margin-top: 0;
-    }
-
-    .work-shot {
-        order: -1;
-    }
-
-    .about-grid {
-        grid-template-columns: minmax(0, 1fr);
-        gap: 28px;
-    }
-
-    .portrait {
+.portrait {
         max-width: 240px;
     }
 
-    .param-list > div {
+.param-list > div {
         grid-template-columns: minmax(0, 1fr);
         gap: 4px;
     }
 
-    /* Flatten the two image features, SOSHUB, and the additional-projects
+/* Flatten the two image features, SOSHUB, and the additional-projects
        rows to a single stacked column, matching the board's mobile-375
        frame: complete image (or mark) on top, copy below it. */
-    .feature,
-    .soshub-body {
+    .feature {
         display: block;
     }
 
-    .feature-media,
-    .feature-body,
-    .soshub-mark,
-    .soshub-detail {
-        grid-column: auto;
-        order: 0;
-    }
-
-    .feature-body,
-    .soshub-detail {
-        margin-top: 20px;
-    }
-
-    .compact-row {
+.compact-row {
         display: block;
         padding: 20px 0;
     }
 
-    .compact-row h3 {
+.compact-row h3 {
         margin-bottom: 6px;
     }
 
-    .compact-row p {
+.compact-row p {
         margin-bottom: 10px;
     }
 
-    .compact-meta {
+.compact-meta {
         text-align: left;
     }
 
-    .lab-entry {
+.lab-entry {
         grid-column: span 12;
     }
 
-    /* Matches the board's mobile .career li: date above content, not beside it. */
-    .career-list li {
-        display: block;
-        padding: 16px 0;
-    }
-
-    .career-period {
+.career-period {
         margin-bottom: 8px;
     }
 
-    .contact-grid {
+.contact-grid {
         grid-template-columns: minmax(0, 1fr);
         gap: 32px;
     }
 
-    .contact-links {
+.contact-links {
         grid-column: auto;
     }
 }
 
 @media (max-width: 700px) {
+    :root {
+        --header-h: 106px;
+    }
+
     body {
         font-size: 16px;
     }
 
-    .site-header nav {
+.site-header nav {
         gap: 16px;
     }
 
-    .header-inner {
+.header-inner {
         flex-wrap: wrap;
         gap: 0 20px;
         padding: 8px 0;
     }
 
-    .identity {
+.identity {
         margin-right: auto;
     }
 
-    .header-aside {
+.header-aside {
         border-left: 0;
         padding-left: 0;
         gap: 14px;
     }
 
-    /* Fewer layers and a flatter composition, but the timeline stays live. */
-    .dm-stage {
-        --dscale: 0.5;
-        aspect-ratio: 4 / 3;
-    }
-
-    .dm-panel-back,
-    .dm-chip-b {
-        display: none;
-    }
-
-    .dm-panel {
-        width: 44%;
-    }
-
-    .dm-panel-mid {
-        transform: translate3d(
-                calc(34% + var(--inv) * 30% * (0.35 + var(--s) * 0.45)),
-                calc(8% + var(--inv) * -7%),
-                calc(var(--inv) * -105px * var(--d))
-            )
-            rotateY(calc(var(--inv) * -24deg)) rotateX(calc(var(--inv) * 8deg));
-    }
-
-    .dm-subject {
-        width: 46%;
-    }
-
-    .dm-chip {
-        width: 12%;
-    }
-
-    .dm-timeline,
-    .dm-adjust-row {
-        grid-template-columns: 76px minmax(0, 1fr) 46px;
-        gap: 10px;
-    }
-
-    .dm-open {
-        margin-left: 0;
-    }
-
-    .dm-frames {
-        grid-template-columns: minmax(0, 1fr);
-    }
-
-    .se-field,
-    .se-field-wide {
+.se-field,
+.se-field-wide {
         min-width: 100%;
     }
 
@@ -1598,9 +1024,9 @@ main:focus {
         scroll-behavior: auto;
     }
 
-    *,
-    *::before,
-    *::after {
+*,
+*::before,
+*::after {
         animation-duration: 0.001ms !important;
         animation-iteration-count: 1 !important;
         transition-duration: 0.001ms !important;
@@ -1687,18 +1113,6 @@ main:focus {
 
 .about + .band {
     border-top: 1px solid var(--line);
-}
-
-.about-columns {
-    display: grid;
-    grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
-    gap: 0 64px;
-}
-
-@media (max-width: 800px) {
-    .about-columns {
-        grid-template-columns: 1fr;
-    }
 }
 
 /* -------------------------------------------------------------- timeline -- */
@@ -2044,4 +1458,166 @@ main:focus {
 .hcareer-detail {
     margin-top: 12px;
     color: var(--muted);
+}
+
+/* -------------------------------------------------------------- carousel -- */
+.carousel {
+    margin-top: 40px;
+}
+
+.carousel-track {
+    --slide: min(920px, 74vw);
+    display: flex;
+    gap: clamp(16px, 2.4vw, 32px);
+    padding: 8px calc((100% - var(--slide)) / 2) 24px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    overscroll-behavior-x: contain;
+}
+
+.carousel-track::-webkit-scrollbar {
+    display: none;
+}
+
+.carousel-track:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: -2px;
+}
+
+.carousel-slide {
+    flex: none;
+    width: var(--slide);
+    scroll-snap-align: center;
+    opacity: 0.45;
+    transform: scale(0.94);
+    transform-origin: center top;
+    transition: opacity 0.45s var(--ease), transform 0.45s var(--ease);
+}
+
+.carousel-slide[data-active] {
+    opacity: 1;
+    transform: none;
+}
+
+.carousel-shot {
+    display: block;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--surface);
+}
+
+.carousel-shot img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+.carousel-caption {
+    display: grid;
+    gap: 10px;
+    padding-top: 24px;
+    max-width: 62ch;
+}
+
+.carousel-caption h3 {
+    font-size: clamp(24px, 2.6vw, 34px);
+    font-weight: 500;
+    line-height: 1.1;
+}
+
+.carousel-summary {
+    color: var(--muted);
+}
+
+.carousel-caption .text-link {
+    justify-self: start;
+    margin-top: 6px;
+}
+
+.carousel-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 8px;
+}
+
+.carousel-arrow {
+    width: 44px;
+    height: 44px;
+    font-size: 18px;
+    color: var(--text);
+    background: transparent;
+    border: 1px solid var(--line-strong);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: color 0.2s var(--ease), border-color 0.2s var(--ease);
+}
+
+.carousel-arrow:hover:not(:disabled) {
+    color: var(--accent);
+    border-color: var(--accent);
+}
+
+.carousel-arrow:disabled {
+    opacity: 0.35;
+    cursor: default;
+}
+
+.carousel-dots {
+    display: flex;
+    gap: 4px;
+}
+
+/* 44px hit area around a small dot. */
+.carousel-dot {
+    position: relative;
+    width: 28px;
+    height: 44px;
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+}
+
+.carousel-dot::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 8px;
+    height: 8px;
+    margin: -4px 0 0 -4px;
+    border-radius: 50%;
+    background: var(--line-strong);
+    transition: background-color 0.3s var(--ease), transform 0.3s var(--ease);
+}
+
+.carousel-dot[aria-current='true']::before {
+    background: var(--accent);
+    transform: scale(1.5);
+}
+
+.carousel-count {
+    min-width: 56px;
+    text-align: center;
+    color: var(--muted);
+    font-size: 14px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .carousel-slide {
+        transition: none;
+    }
+}
+
+@media (max-width: 700px) {
+    .carousel-track {
+        --slide: 84vw;
+    }
+
+.carousel-count {
+        display: none;
+    }
 }
