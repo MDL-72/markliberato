@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import CareerTimeline from '@/components/CareerTimeline';
 import CinematicHero from '@/components/CinematicHero';
 import { categoryLabel, education, experience, experiments, profile, skills } from '@/data/portfolio';
 import { publishedWork } from '@/lib/work';
@@ -136,29 +137,12 @@ export default function Home() {
                     </div>
                 </div>
 
+                <CareerTimeline jobs={experience} />
+
                 <div className="shell about-details">
-                    <div className="about-columns">
-                        <div>
-                            <h3 className="subhead">Career</h3>
-                            <ol className="career-list">
-                                {experience.map((item) => (
-                                    <li key={item.company}>
-                                        <p className="mono career-period">{item.period}</p>
-                                        <div>
-                                            <h4>{item.company}</h4>
-                                            <p className="mono career-role">{item.role}</p>
-                                            <p>{item.detail}</p>
-                                        </div>
-                                    </li>
-                                ))}
-                            </ol>
-                        </div>
-                        <div>
-                            <h3 className="subhead">Education</h3>
-                            <p>{education.degree}</p>
-                            <p className="mono career-role">{education.training}</p>
-                        </div>
-                    </div>
+                    <h3 className="subhead">Education</h3>
+                    <p>{education.degree}</p>
+                    <p className="mono career-role">{education.training}</p>
 
                     <h3 className="subhead">Skills</h3>
                     <dl className="skill-groups">
