@@ -9,7 +9,7 @@ export const profile = {
     email: 'markdavidliberato@gmail.com',
     github: 'https://github.com/markliberato',
     linkedin: 'https://www.linkedin.com/in/mdl72/',
-    site: 'https://markliberato.com',
+    site: 'https://www.markliberato.com',
     resume: '/resume.pdf',
 };
 
