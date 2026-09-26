@@ -13,8 +13,8 @@ import { useEffect, useRef, useState, type CSSProperties } from 'react';
 const SCENES = [
     { id: 'skate', label: 'Skate', src: '/hero/scene-skate.jpg', rain: false, glow: false, pos: '60% 78%', posM: '80% 60%' },
     { id: 'code', label: 'Code', src: '/hero/scene-code.jpg', rain: true, glow: true, pos: '60% 50%', posM: '78% 40%' },
-    { id: 'hoop', label: 'Hoop', src: '/hero/scene-hoop.jpg', rain: false, glow: false, pos: '55% 12%', posM: '58% 30%' },
-    { id: 'gym', label: 'Lift', src: '/hero/scene-gym.jpg', rain: false, glow: false, pos: '55% 80%', posM: '62% 55%' },
+    { id: 'hoop', label: 'Hoop', src: '/hero/scene-hoop.jpg', rain: false, glow: false, pos: '55% 12%', posM: '92% 30%' },
+    { id: 'gym', label: 'Lift', src: '/hero/scene-gym.jpg', rain: false, glow: false, pos: '55% 80%', posM: '80% 55%' },
     { id: 'sleep', label: 'Sleep', src: '/hero/scene-sleep.jpg', rain: true, glow: false, pos: '65% 50%', posM: '80% 40%' },
 ] as const;
 

@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { GeistSans } from 'geist/font/sans';
 import { GeistMono } from 'geist/font/mono';
 import HeaderScroll from '@/components/HeaderScroll';
+import MenuButton from '@/components/MenuButton';
 import ThemeToggle from '@/components/ThemeToggle';
 import { profile } from '@/data/portfolio';
 import './globals.css';
@@ -64,19 +65,22 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
                             <span className="identity-name">{profile.name}</span>
                             <span className="identity-role mono">{profile.role}</span>
                         </Link>
-                        <nav aria-label="Main">
-                            <Link href="/#work">Work</Link>
-                            <Link href="/#about">About</Link>
-                            <Link href="/#lab">Lab</Link>
-                        </nav>
-                        <div className="header-aside">
-                            <a className="mono" href={profile.github} target="_blank" rel="noreferrer">
-                                GitHub
-                            </a>
-                            <a className="mono" href={profile.resume} download>
-                                Résumé
-                            </a>
-                            <ThemeToggle />
+                        <MenuButton />
+                        <div className="header-panel" id="site-menu">
+                            <nav aria-label="Main">
+                                <Link href="/#work">Work</Link>
+                                <Link href="/#about">About</Link>
+                                <Link href="/#lab">Lab</Link>
+                            </nav>
+                            <div className="header-aside">
+                                <a className="mono" href={profile.github} target="_blank" rel="noreferrer">
+                                    GitHub
+                                </a>
+                                <a className="mono" href={profile.resume} download>
+                                    Résumé
+                                </a>
+                                <ThemeToggle />
+                            </div>
                         </div>
                     </div>
                 </header>
