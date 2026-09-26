@@ -3,6 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { categoryLabel } from '@/data/portfolio';
+import { breadcrumbJsonLd, pageSocial } from '@/lib/seo';
 import { findWork, publishedWork } from '@/lib/work';
 
 type Params = { params: Promise<{ slug: string }> };
@@ -18,6 +19,7 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
         title: entry.title,
         description: entry.summary,
         alternates: { canonical: `/work/${entry.slug}` },
+        ...pageSocial(entry.title, entry.summary, `/work/${entry.slug}`),
     };
 }
 
@@ -28,6 +30,17 @@ export default async function WorkPage({ params }: Params) {
 
     return (
         <main id="main" tabIndex={-1} className="shell page">
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{
+                    __html: JSON.stringify(
+                        breadcrumbJsonLd([
+                            { name: 'Work', path: '/#work' },
+                            { name: entry.title, path: `/work/${entry.slug}` },
+                        ]),
+                    ),
+                }}
+            />
             <p className="mono breadcrumb">
                 <Link href="/#work">Work</Link> / {entry.title}
             </p>

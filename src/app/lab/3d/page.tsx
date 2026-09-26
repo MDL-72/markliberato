@@ -1,11 +1,13 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import ProjectRing from '@/components/ProjectRing';
+import { pageSocial } from '@/lib/seo';
 
 export const metadata: Metadata = {
     title: '3D project ring',
     description: 'Screenshots of real projects placed on a ring in three-dimensional space, rendered with WebGL.',
     alternates: { canonical: '/lab/3d' },
+    ...pageSocial('3D project ring', 'Screenshots of real projects placed on a ring in three-dimensional space, rendered with WebGL.', '/lab/3d'),
 };
 
 export default function ThreeDExperiment() {

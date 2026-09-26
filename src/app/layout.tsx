@@ -6,10 +6,8 @@ import HeaderScroll from '@/components/HeaderScroll';
 import MenuButton from '@/components/MenuButton';
 import ThemeToggle from '@/components/ThemeToggle';
 import { profile } from '@/data/portfolio';
+import { siteDescription, siteJsonLd } from '@/lib/seo';
 import './globals.css';
-
-const description =
-    'The personal lab of Mark Liberato, a full-stack engineer: working experiments, selected project contributions, and notes on how they were built.';
 
 export const metadata: Metadata = {
     metadataBase: new URL(profile.site),
@@ -17,15 +15,20 @@ export const metadata: Metadata = {
         default: `${profile.name} — ${profile.role}`,
         template: `%s — ${profile.name}`,
     },
-    description,
+    description: siteDescription,
     alternates: { canonical: '/' },
     openGraph: {
         title: `${profile.name} — ${profile.role}`,
-        description,
+        description: siteDescription,
         url: '/',
         type: 'website',
         locale: 'en_US',
         siteName: profile.name,
+    },
+    twitter: {
+        card: 'summary_large_image',
+        title: `${profile.name} — ${profile.role}`,
+        description: siteDescription,
     },
     robots: { index: true, follow: true },
 };
@@ -43,6 +46,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <html lang="en" className={`${GeistSans.variable} ${GeistMono.variable}`} suppressHydrationWarning>
             <head>
                 <script dangerouslySetInnerHTML={{ __html: bootScript }} />
+                <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(siteJsonLd()) }} />
                 {/* Both experiments ship their interactive UI and their static fallback
                     in the same HTML. With scripting on, the fallback is display:none and
                     never contributes layout, so nothing swaps after hydration and no

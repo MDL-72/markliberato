@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import SearchExplorer from '@/components/SearchExplorer';
+import { pageSocial } from '@/lib/seo';
 import { publishedWork, toSummary } from '@/lib/work';
 
 export const metadata: Metadata = {
@@ -8,6 +9,11 @@ export const metadata: Metadata = {
     description:
         'A search and filter interface over this site’s published work records, talking to a real read-only Next.js route handler.',
     alternates: { canonical: '/lab/data-explorer' },
+    ...pageSocial(
+        'Search and state',
+        'A search and filter interface over this site’s published work records, talking to a real read-only Next.js route handler.',
+        '/lab/data-explorer',
+    ),
 };
 
 export default function DataExplorer() {
