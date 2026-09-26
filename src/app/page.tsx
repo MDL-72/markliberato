@@ -35,7 +35,7 @@ export default function Home() {
                             </div>
                             <div className="feature-body">
                                 <p className="mono feature-index">
-                                    {String(index + 1).padStart(2, '0')} — {categoryLabel(entry.category)} · {entry.period}
+                                    {String(index + 1).padStart(2, '0')} — {categoryLabel(entry.category)}
                                 </p>
                                 <h3>{entry.title}</h3>
                                 <p className="feature-summary">{entry.summary}</p>
