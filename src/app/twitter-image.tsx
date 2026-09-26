@@ -78,7 +78,7 @@ export default function Image() {
                             letterSpacing: '-0.01em',
                         }}
                     >
-                        {profile.role} · {profile.location}
+                        {`${profile.role} · ${profile.location}`}
                     </div>
                 </div>
             </div>
