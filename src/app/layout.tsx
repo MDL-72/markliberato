@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { GeistSans } from 'geist/font/sans';
 import { GeistMono } from 'geist/font/mono';
+import HeaderScroll from '@/components/HeaderScroll';
 import ThemeToggle from '@/components/ThemeToggle';
 import { profile } from '@/data/portfolio';
 import './globals.css';
@@ -79,6 +80,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
                         </div>
                     </div>
                 </header>
+                <HeaderScroll />
                 {children}
                 <footer className="site-footer">
                     <div className="shell footer-inner">

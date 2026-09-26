@@ -234,11 +234,29 @@ main:focus {
 
 /* ---------------------------------------------------------------- header -- */
 .site-header {
-    position: sticky;
-    top: 0;
+    /* Fixed overlay: stays on screen while scrolling, takes no layout height. */
+    position: fixed;
+    inset: 0 0 auto 0;
     z-index: 30;
-    background: var(--bg);
-    border-bottom: 1px solid var(--line);
+    background: transparent;
+    border-bottom: 1px solid transparent;
+    transition: background-color 0.2s var(--ease), border-color 0.2s var(--ease);
+}
+
+/* Over the dark hero (fixed graphite footage in both themes): light text. */
+.site-header[data-over-hero] {
+    --text: #eef4f2;
+    --muted: rgba(238, 244, 242, 0.72);
+    --line: rgba(238, 244, 242, 0.28);
+    color: #eef4f2;
+}
+
+/* Once scrolled, give the header a surface so it stays readable over content. */
+.site-header[data-scrolled] {
+    background: color-mix(in srgb, var(--bg) 88%, transparent);
+    border-bottom-color: var(--line);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
 }
 
 .header-inner {
@@ -805,7 +823,8 @@ main:focus {
 
 /* ------------------------------------------------------- interior pages -- */
 .page {
-    padding: clamp(32px, 5vh, 48px) 0 0;
+    /* Clears the fixed header. */
+    padding: calc(64px + clamp(32px, 5vh, 48px)) 0 0;
 }
 
 .breadcrumb {

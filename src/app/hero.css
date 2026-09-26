@@ -6,8 +6,8 @@
     display: flex;
     align-items: center;
     /* Follow the scenes' 16:9 shape so nothing is cropped on wide screens, but
-       never taller than the viewport below the 64px header. */
-    min-height: clamp(520px, min(56.25vw, 100svh - 64px), 1300px);
+       never taller than the viewport. The fixed header overlays the top. */
+    min-height: clamp(520px, min(56.25vw, 100svh), 1300px);
     overflow: hidden;
     background: #0b0f10 url('/hero/scene-skate.jpg') center / cover no-repeat;
     color: #eef4f2;
