@@ -40,7 +40,7 @@ export function siteJsonLd() {
                 description: siteDescription,
                 address: { '@type': 'PostalAddress', addressLocality: 'Taguig', addressCountry: 'PH' },
                 alumniOf: { '@type': 'CollegeOrUniversity', name: 'STI College, Global City' },
-                worksFor: { '@type': 'Organization', name: 'Samsung Electronics Philippines Corporation' },
+                worksFor: { '@type': 'Organization', name: 'Samsung Research and Development Philippines' },
                 sameAs: [profile.github, profile.linkedin],
                 knowsAbout: ['React', 'Next.js', 'TypeScript', 'Angular', 'Tailwind CSS', 'GraphQL', 'Web performance', 'Automated testing'],
             },

@@ -267,7 +267,7 @@ export const skills = [
 export const experience = [
     {
         period: 'May 2023 — Present',
-        company: 'Samsung Electronics Philippines Corporation',
+        company: 'Samsung Research and Development Philippines',
         role: 'Engineer',
         detail: 'Reusable components, performance work and unit tests across internal portals and public websites. Led a React to Next.js migration, the SOSHUB Angular 17 to 19 upgrade, and set up automated testing (85%+ coverage) with faster GitHub Actions CI/CD.',
     },
